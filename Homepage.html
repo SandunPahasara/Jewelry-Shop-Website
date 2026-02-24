@@ -10,6 +10,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -32,9 +33,17 @@
 
     <main>
         <section class="hero" id="home">
-            <p>Colombo's Legacy Since 2010</p>
-            <h1>The Fine Art of High Fashion Jewellery</h1>
-            <!-- DISCOVER button or scroll indicator could go here -->
+            <video autoplay muted playsinline class="hero-video" id="heroVideo" style="transition: opacity 0.5s ease;">
+                <!-- Videos will be injected by VideoSequenceManager.js -->
+            </video>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <p>Colombo's Legacy Since 2010</p>
+                <h1>The Fine Art of High Fashion Jewellery</h1>
+                <div class="hero-actions">
+                    <a href="#products" class="submit-btn" style="text-decoration: none;">Explore Collection</a>
+                </div>
+            </div>
         </section>
 
         <!-- Heritage Section (Storytelling) -->
@@ -132,27 +141,66 @@
         </section>
 
         <section class="contact-section" id="contact">
-            <h2 class="section-title">Contact Us</h2>
-            <form class="contact-form" id="contactForm">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" required>
+            <div class="contact-container" style="margin-top: 5rem;">
+                <div class="contact-info">
+                    <h2>Get in Touch</h2>
+                    <p>Experience the Luxe personalized service. Our experts are here to assist you with bespoke
+                        designs, gemstone selection, or any inquiries.</p>
+
+                    <div class="contact-detail">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <span>Hotline</span>
+                            <p>+94 11 234 5678</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-detail">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <span>Email</span>
+                            <p>concierge@luxe-jewelry.com</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-detail">
+                        <i class="fas fa-location-dot"></i>
+                        <div>
+                            <span>Boutique</span>
+                            <p>No 12, Flower Road, Colombo 07, Sri Lanka</p>
+                        </div>
+                    </div>
+
+                    <div class="social-icons" style="margin-top: 3rem;">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
+
+                <div class="contact-form-wrapper">
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" placeholder="Your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="Your email address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" placeholder="Your phone number">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" placeholder="How can we assist you today?" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn" id="submitBtn">Send Inquiry</button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="phone">Phone</label>
-                    <input type="tel" id="phone" name="phone">
-                </div>
-                <div class="form-group" style="grid-column: 1 / -1;">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" placeholder="Tell us about your jewelry needs..."
-                        required></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Send Inquiry</button>
-            </form>
+            </div>
         </section>
     </main>
 
@@ -171,15 +219,27 @@
         </div>
     </div>
 
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/94112345678" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
     <footer>
         <div class="footer-content">
+            <div class="logo" style="color: white; margin-bottom: 2rem; font-size: 2rem;">Luxe Jewelry</div>
             <div class="footer-links">
-                <a href="#privacy">Privacy Policy</a>
-                <a href="#terms">Terms of Service</a>
-                <a href="#returns">Returns</a>
-                <a href="#shipping">Shipping Info</a>
+                <a href="#home">Home</a>
+                <a href="#heritage">Heritage</a>
+                <a href="#products">Collections</a>
+                <a href="#contact">Contact</a>
             </div>
-            <p>&copy; 2025 Luxe Jewelry. All rights reserved.</p>
+            <div class="footer-social-bottom">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-pinterest-p"></i></a>
+            </div>
+            <p style="margin-top: 3rem; font-size: 0.7rem; opacity: 0.5; letter-spacing: 1px;">&copy; 2025 Luxe Jewelry.
+                All rights reserved.</p>
         </div>
     </footer>
 
@@ -188,6 +248,7 @@
     <script src="components/CartManager.js"></script>
     <script src="components/UIManager.js"></script>
     <script src="components/FormManager.js"></script>
+    <script src="components/VideoSequenceManager.js"></script>
     <script src="components/App.js"></script>
 
     <script>

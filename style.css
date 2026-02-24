@@ -131,36 +131,67 @@ main {
 
 /* Hero Section */
 .hero {
-    height: 80vh;
+    height: 100vh;
     display: flex;
+    position: relative;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('images/hero-bg.jpg');
-    /* Note: Placeholder if user doesn't have image */
-    background-size: cover;
-    background-position: center;
+    overflow: hidden;
     color: white;
-    padding: 0 5%;
     margin-bottom: 0;
-    border-radius: 0;
+}
+
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -2;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+    z-index: -1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    padding: 0 5%;
+    animation: fadeInUp 1.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .hero h1 {
-    font-size: 4rem;
+    font-size: 4.5rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
-    max-width: 900px;
+    max-width: 1000px;
     line-height: 1.1;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .hero p {
-    font-size: 1.1rem;
-    letter-spacing: 3px;
+    font-size: 1.2rem;
+    letter-spacing: 5px;
     text-transform: uppercase;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-actions {
+    margin-top: 2rem;
 }
 
 /* Heritage Section */
@@ -451,7 +482,7 @@ main {
 .cart-sidebar {
     position: fixed;
     top: 0;
-    right: -400px;
+    right: -450px;
     width: 450px;
     height: 100vh;
     background: rgba(255, 255, 255, 0.95);
@@ -625,7 +656,191 @@ footer {
     color: #d4af37;
 }
 
-/* Responsive Design */
+/* Contact Section Redesign */
+.contact-section {
+    padding: 10rem 5%;
+    background-color: var(--bg-white);
+}
+
+.contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8rem;
+    align-items: center;
+}
+
+.contact-info h2 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+}
+
+.contact-info p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+    max-width: 450px;
+}
+
+.contact-detail {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.contact-detail i {
+    font-size: 1.2rem;
+    color: var(--accent-color);
+}
+
+.contact-detail span {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 0.3rem;
+}
+
+.contact-detail p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    margin-bottom: 0;
+}
+
+.social-icons {
+    display: flex;
+    gap: 2rem;
+}
+
+.social-icons a {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    transition: var(--transition-smooth);
+}
+
+.social-icons a:hover {
+    color: var(--accent-color);
+    transform: translateY(-5px);
+}
+
+/* Form Styling */
+.contact-form-wrapper {
+    background: var(--bg-soft);
+    padding: 4rem;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 1rem 0;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    transition: var(--transition-smooth);
+    border-radius: 0;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-bottom-color: var(--accent-color);
+}
+
+.submit-btn {
+    margin-top: 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1.2rem 3rem;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.submit-btn:hover {
+    background-color: var(--accent-color);
+}
+
+/* WhatsApp Float */
+.whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: #25d366;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    transition: var(--transition-smooth);
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+}
+
+/* Footer Bottom Socials */
+.footer-social-bottom {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.footer-social-bottom a {
+    color: white;
+    font-size: 1rem;
+    opacity: 0.7;
+    transition: var(--transition-smooth);
+}
+
+.footer-social-bottom a:hover {
+    color: var(--accent-color);
+    opacity: 1;
+}
+
+/* Responsive and Cleanup */
+@media (max-width: 1024px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 6rem;
+    }
+}
+
 @media (max-width: 768px) {
     .nav-links {
         display: none;
@@ -648,9 +863,7 @@ footer {
         right: -100vw;
     }
 
-    .contact-form {
-        grid-template-columns: 1fr;
-    }
+    /* The old .contact-form rule was here, now replaced by the new contact section styles */
 
     main {
         padding: 1rem 3%;
