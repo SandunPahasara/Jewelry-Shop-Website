@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxe Jewelry - Premium Collection</title>
+    <title>Luxe Jewelry | Exquisite Colombo Heritage Collections</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    </head>
+</head>
+
 <body>
     <header>
         <nav>
@@ -25,58 +32,93 @@
 
     <main>
         <section class="hero" id="home">
-            <h1>Premium Jewelry Collection</h1>
-            <p>Discover our exquisite selection of fine jewelry crafted with precision and elegance</p>
+            <p>Colombo's Legacy Since 2010</p>
+            <h1>The Fine Art of High Fashion Jewellery</h1>
+            <!-- DISCOVER button or scroll indicator could go here -->
         </section>
 
-        <section class="about-section" id="aboutus">
-
-            
-            <h2>About Luxe Jewelry</h2>
-            <p>
-                <strong>Luxe Jewelry</strong> is your premier destination for luxury and elegance. Established in 2010, our shop has been dedicated to providing customers with the finest selection of handcrafted jewelry, including rings, necklaces, earrings, and bracelets. Each piece is carefully curated and crafted using the highest quality materials, ensuring timeless beauty and lasting value.
-            </p>
-            <ul>
-                <li><strong>Location:</strong> 123 Diamond Avenue, Gem City, Country</li>
-                <li><strong>Contact:</strong> (123) 456-7890 | info@luxejewelry.com</li>
-                <li><strong>Hours:</strong> Mon-Sat: 10am - 7pm, Sun: Closed</li>
-                <li><strong>Specialties:</strong> Custom designs, engagement & wedding rings, gemstone jewelry, expert repairs</li>
-            </ul>
-            <p>
-                At Luxe Jewelry, our mission is to help you celebrate life's special moments with pieces that are as unique as you are. Visit us in-store or browse our online collection to find your next treasure.
-            </p>
+        <!-- Heritage Section (Storytelling) -->
+        <section class="heritage-section" id="heritage">
+            <div class="heritage-content">
+                <h2>Our Heritage</h2>
+                <p>
+                    With a design heritage that focus on nearly two decades, Luxe Jewelry has perfected the fine art of
+                    themed portrayals. Each piece reflects substance and meaning that go beyond surface beauty.
+                </p>
+                <p>
+                    This characteristic uniqueness is deeply rooted in our design approach; practiced by the craftsmen
+                    of the Luxe family who are among the finest in the trade. Everything we do is a labour of passion,
+                    and every creation at our hands; a memorable statement of elegance.
+                </p>
+            </div>
+            <div class="heritage-image">
+                <img src="images/heritage-display.jpg" alt="Our Craftsmanship">
+            </div>
         </section>
+
+        <!-- Discovery Row (Gems focus) -->
+        <div class="discovery-row">
+            <div class="discovery-image"></div>
+            <div class="discovery-text">
+                <h2>Unique Gems</h2>
+                <p>
+                    We feature some of the most stunning selections of precious gems, discovered and sourced through the
+                    finest purveyors. Taking center stage are our unique sapphires and emeralds.
+                </p>
+                <div style="margin-top: 2rem;">
+                    <a href="#products" class="submit-btn" style="text-decoration: none; display: inline-block;">View
+                        Collection</a>
+                </div>
+            </div>
+        </div>
 
         <section class="search-container">
             <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search for jewelry...">
+                <input type="text" id="searchInput" placeholder="Discover your next treasure...">
                 <button onclick="searchProducts()">🔍</button>
             </div>
         </section>
-        <section class="categories">
-           <div class="category-card active" data-category="all" onclick="filterProducts('all')">
-                <div class="category-icon"><img src="images/All-Jewelry.jpg" alt="All Jewelry" style="width: 160px; height: 160px; object-fit: cover; border-radius: 50%;"></div>
-                <h3>All Jewelry</h3>
-                <p>Complete Collection</p>
+        <section class="section-title">
+            <h2>The Collections</h2>
+            <p
+                style="text-align: center; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; margin-top: 1rem;">
+                Curated Excellence</p>
+        </section>
+
+        <section class="categories" id="collections">
+            <div class="category-card active" onclick="filterProducts('all')">
+                <div class="category-icon">
+                    <img src="images/collection-all.jpg" alt="All Collections">
+                </div>
+                <h3>All</h3>
+                <p>View Entire Gallery</p>
             </div>
-            <div class="category-card" data-category="rings" onclick="filterProducts('rings')">
-                <div class="category-icon"><img src="images/Rings.jpg" alt="rings" style="width: 160px; height: 160px; object-fit: cover; border-radius: 50%;"></div>
-                <h3>Rings</h3>
-                <p>Engagement & Wedding</p>
-                
+            <div class="category-card" onclick="filterProducts('Rings')">
+                <div class="category-icon">
+                    <img src="images/collection-rings.jpg" alt="Rings Collection">
+                </div>
+                <h3>The Rings</h3>
+                <p>Eternal Symbols</p>
             </div>
-            <div class="category-card" data-category="necklaces" onclick="filterProducts('necklaces')">
-                <div class="category-icon"><img src="images/Necklace.jpg" alt="Necklace" style="width: 160px; height: 160px; object-fit: cover; border-radius: 50%;"></div>
+            <div class="category-card" onclick="filterProducts('Necklaces')">
+                <div class="category-icon">
+                    <img src="images/collection-necklaces.jpg" alt="Necklaces Collection">
+                </div>
                 <h3>Necklaces</h3>
-                <p>Pendants & Chains</p>
+                <p>Grace & Grandeur</p>
             </div>
-            <div class="category-card" data-category="earrings" onclick="filterProducts('earrings')">
-                <div class="category-icon"><img src="images/Earrings.jpg" alt="Earrings" style="width: 160px; height: 160px; object-fit: cover; border-radius: 50%;"></div>
+            <div class="category-card" onclick="filterProducts('Earrings')">
+                <div class="category-icon">
+                    <img src="images/collection-earrings.jpg" alt="Earrings Collection">
+                </div>
                 <h3>Earrings</h3>
                 <p>Studs & Hoops</p>
             </div>
             <div class="category-card" data-category="bracelets" onclick="filterProducts('bracelets')">
-                <div class="category-icon"><img src="images/closeup-shot-female-pink-dress-wearing-beautiful-silver-bracelet-with-heart-pendant.jpg" alt="Bracelets" style="width: 160px; height: 160px; object-fit: cover; border-radius: 50%;"></div>
+                <div class="category-icon"><img
+                        src="images/closeup-shot-female-pink-dress-wearing-beautiful-silver-bracelet-with-heart-pendant.jpg"
+                        alt="Bracelets" style="width: 160px; height: 160px; object-fit: cover; border-radius: 50%;">
+                </div>
                 <h3>Bracelets</h3>
                 <p>Bangles & Chains</p>
             </div>
@@ -106,7 +148,8 @@
                 </div>
                 <div class="form-group" style="grid-column: 1 / -1;">
                     <label for="message">Message</label>
-                    <textarea id="message" name="message" placeholder="Tell us about your jewelry needs..." required></textarea>
+                    <textarea id="message" name="message" placeholder="Tell us about your jewelry needs..."
+                        required></textarea>
                 </div>
                 <button type="submit" class="submit-btn">Send Inquiry</button>
             </form>
@@ -140,519 +183,39 @@
         </div>
     </footer>
 
+    <!-- Component Scripts -->
+    <script src="components/ProductManager.js"></script>
+    <script src="components/CartManager.js"></script>
+    <script src="components/UIManager.js"></script>
+    <script src="components/FormManager.js"></script>
+    <script src="components/App.js"></script>
+
     <script>
-        // Sample product data
-        const products = [
-            {
-                id: 1,
-                name: "Diamond Engagement Ring",
-                category: "rings",
-                price: 2499.99,
-                description: "Stunning 1-carat diamond solitaire ring in 14K white gold",
-                image: "images/diamond-ring.jpg"
-            },
-            {
-                id: 2,
-                name: "Pearl Necklace",
-                category: "necklaces",
-                price: 299.99,
-                description: "Classic freshwater pearl necklace with sterling silver clasp",
-                image: "images/pearl-necklace.jpg"
-            },
-            {
-                id: 3,
-                name: "Gold Hoop Earrings",
-                category: "earrings",
-                price: 199.99,
-                description: "Elegant 18K gold plated hoop earrings, perfect for any occasion",
-                image: "images/gold-hoop-earrings.jpg"
-            },
-            {
-                id: 4,
-                name: "Tennis Bracelet",
-                category: "bracelets",
-                price: 899.99,
-                description: "Sparkling cubic zirconia tennis bracelet in sterling silver",
-                image: "images/tennis-bracelet.jpg"
-            },
-            {
-                id: 5,
-                name: "Ruby Wedding Band",
-                category: "rings",
-                price: 799.99,
-                description: "Beautiful ruby and diamond wedding band in 14K yellow gold",
-                image: "images/ruby-wedding-band.jpg"
-            },
-            {
-                id: 6,
-                name: "Sapphire Pendant",
-                category: "necklaces",
-                price: 599.99,
-                description: "Exquisite sapphire pendant with diamond accents on gold chain",
-                image: "images/sapphire-pendant.jpg"
-            },
-            {
-                id: 7,
-                name: "Diamond Stud Earrings",
-                category: "earrings",
-                price: 1299.99,
-                description: "Classic 0.5-carat diamond stud earrings in 14K white gold",
-                image: "images/diamond-stud-earrings.jpg"
-            },
-            {
-                id: 8,
-                name: "Charm Bracelet",
-                category: "bracelets",
-                price: 149.99,
-                description: "Sterling silver charm bracelet with heart and star charms",
-                image: "images/charm-bracelet.jpg"
-            }
-        ];
-
-        let cart = [];
-        let currentFilter = 'all';
-
-        // Initialize the website
-        document.addEventListener('DOMContentLoaded', function() {
-            displayProducts();
-            updateCartDisplay();
-        });
-
-        // Display products based on current filter
-        function displayProducts(productsToShow = products) {
-            const productsGrid = document.getElementById('productsGrid');
-            productsGrid.innerHTML = '';
-
-            const filteredProducts = currentFilter === 'all' 
-                ? productsToShow 
-                : productsToShow.filter(product => product.category === currentFilter);
-
-            if (filteredProducts.length === 0) {
-                productsGrid.innerHTML = '<div class="loading">No products found matching your criteria.</div>';
-                return;
-            }
-
-            filteredProducts.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                let productImageHtml = '';
-                if (product.image) {
-                    productImageHtml = `<img src="${product.image}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.src='https://via.placeholder.com/300x250?text=No+Image';">`;
-                } else if (product.icon) {
-                    productImageHtml = `<span style='font-size:4rem;color:#d4af37;'>${product.icon}</span>`;
-                }
-                productCard.innerHTML = `
-                    <div class="product-image">${productImageHtml}</div>
-                    <div class="product-info">
-                        <h3 class="product-name">${product.name}</h3>
-                        <p class="product-description">${product.description}</p>
-                        <div class="product-price">$${product.price.toFixed(2)}</div>
-                        <button class="add-to-cart" onclick="addToCart(${product.id})">Add to Cart</button>
-                    </div>
-                `;
-                productsGrid.appendChild(productCard);
-            });
-        }
-
-        // Filter products by category
-        function filterProducts(category) {
-            currentFilter = category;
-            
-            // Update active category
-            document.querySelectorAll('.category-card').forEach(card => {
-                card.classList.remove('active');
-            });
-            document.querySelector(`[data-category="${category}"]`).classList.add('active');
-            
-            displayProducts();
-        }
-
-        // Search products
-        function searchProducts() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const filteredProducts = products.filter(product => 
-                product.name.toLowerCase().includes(searchTerm) ||
-                product.description.toLowerCase().includes(searchTerm) ||
-                product.category.toLowerCase().includes(searchTerm)
-            );
-            displayProducts(filteredProducts);
-        }
-
-        // Add event listener for Enter key in search
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchProducts();
-            }
-        });
-
-        // Add to cart functionality
+        // Legacy functions for backward compatibility with inline onclick handlers
         function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            const existingItem = cart.find(item => item.id === productId);
-
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({
-                    ...product,
-                    quantity: 1
-                });
-            }
-
-            updateCartDisplay();
-            
-            // Show feedback
-            const button = event.target;
-            const originalText = button.textContent;
-            button.textContent = 'Added!';
-            button.style.background = '#4CAF50';
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.style.background = '';
-            }, 1000);
+            app.addToCart(productId, event);
         }
 
-        // Update cart display
-        function updateCartDisplay() {
-            const cartCount = document.getElementById('cartCount');
-            const cartItems = document.getElementById('cartItems');
-            const totalAmount = document.getElementById('totalAmount');
-
-            // Update cart count
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartCount.textContent = totalItems;
-            cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
-
-            // Update cart items
-            cartItems.innerHTML = '';
-            let total = 0;
-
-            cart.forEach(item => {
-                total += item.price * item.quantity;
-                
-                const cartItem = document.createElement('div');
-                cartItem.className = 'cart-item';
-                cartItem.innerHTML = `
-                    <div class="cart-item-image">${item.icon}</div>
-                    <div class="cart-item-info">
-                        <div class="cart-item-name">${item.name}</div>
-                        <div class="cart-item-price">$${(item.price * item.quantity).toFixed(2)}</div>
-                    </div>
-                    <div class="quantity-controls">
-                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
-                        <span>${item.quantity}</span>
-                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
-                    </div>
-                `;
-                cartItems.appendChild(cartItem);
-            });
-
-            if (cart.length === 0) {
-                cartItems.innerHTML = '<div class="loading">Your cart is empty</div>';
-            }
-
-            totalAmount.textContent = `${total.toFixed(2)}`;
+        function filterProducts(category) {
+            app.filterProducts(category);
         }
 
-        // Update item quantity
-        function updateQuantity(productId, change) {
-            const item = cart.find(item => item.id === productId);
-            if (item) {
-                item.quantity += change;
-                if (item.quantity <= 0) {
-                    cart = cart.filter(cartItem => cartItem.id !== productId);
-                }
-                updateCartDisplay();
-            }
+        function searchProducts() {
+            app.searchProducts();
         }
 
-        // Toggle cart sidebar
         function toggleCart() {
-            const cartSidebar = document.getElementById('cartSidebar');
-            cartSidebar.classList.toggle('open');
+            app.toggleCart();
         }
 
-        // Checkout functionality
+        function updateQuantity(productId, change) {
+            app.cart.updateQuantity(productId, change);
+        }
+
         function checkout() {
-            if (cart.length === 0) {
-                alert('Your cart is empty!');
-                return;
-            }
-
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-            
-            alert(`Thank you for your purchase!\n\nOrder Summary:\n${itemCount} items\nTotal: ${total.toFixed(2)}\n\nYou will be redirected to payment processing.`);
-            
-            // In a real application, this would redirect to a payment processor
-            cart = [];
-            updateCartDisplay();
-            toggleCart();
-        }
-
-        // Contact form submission
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-            
-            // Simulate form submission
-            alert(`Thank you for your inquiry, ${data.name}!\n\nWe'll get back to you within 24 hours at ${data.email}.`);
-            
-            // Reset form
-            this.reset();
-        });
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Add some animation delays for product cards
-        function animateProductCards() {
-            const cards = document.querySelectorAll('.product-card');
-            cards.forEach((card, index) => {
-                card.style.animationDelay = `${index * 0.1}s`;
-            });
-        }
-
-        // Call animation function when products are displayed
-        const originalDisplayProducts = displayProducts;
-        displayProducts = function(productsToShow = products) {
-            originalDisplayProducts(productsToShow);
-            setTimeout(animateProductCards, 50);
-        };
-
-        // Close cart when clicking outside
-        document.addEventListener('click', function(e) {
-            const cartSidebar = document.getElementById('cartSidebar');
-            const cartIcon = document.querySelector('.cart-icon');
-            
-            if (cartSidebar.classList.contains('open') && 
-                !cartSidebar.contains(e.target) && 
-                !cartIcon.contains(e.target)) {
-                cartSidebar.classList.remove('open');
-            }
-        });
-
-        // Add loading state for search
-        const originalSearchProducts = searchProducts;
-        searchProducts = function() {
-            const productsGrid = document.getElementById('productsGrid');
-            productsGrid.innerHTML = '<div class="loading">Searching...</div>';
-            
-            setTimeout(() => {
-                originalSearchProducts();
-            }, 300);
-        };
-
-        // Mobile menu toggle (for future enhancement)
-        function toggleMobileMenu() {
-            // This would be implemented for mobile navigation
-            console.log('Mobile menu toggle');
-        }
-
-        // Add to favorites functionality (future enhancement)
-        function addToFavorites(productId) {
-            console.log(`Added product ${productId} to favorites`);
-        }
-
-        // Product quick view functionality (future enhancement)
-        function quickView(productId) {
-            const product = products.find(p => p.id === productId);
-            if (product) {
-                alert(`Quick View: ${product.name}\n${product.description}\nPrice: ${product.price}`);
-            }
-        }
-
-        // Initialize tooltips and other interactive elements
-        function initializeInteractivity() {
-            // Add hover effects to buttons
-            document.querySelectorAll('button').forEach(button => {
-                button.addEventListener('mouseenter', function() {
-                    this.style.transform = 'scale(1.02)';
-                });
-                
-                button.addEventListener('mouseleave', function() {
-                    this.style.transform = 'scale(1)';
-                });
-            });
-
-            // Add ripple effect to category cards
-            document.querySelectorAll('.category-card').forEach(card => {
-                card.addEventListener('click', function(e) {
-                    const ripple = document.createElement('div');
-                    const rect = this.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    const x = e.clientX - rect.left - size / 2;
-                    const y = e.clientY - rect.top - size / 2;
-                    
-                    ripple.style.cssText = `
-                        position: absolute;
-                        width: ${size}px;
-                        height: ${size}px;
-                        left: ${x}px;
-                        top: ${y}px;
-                        background: rgba(255, 255, 255, 0.3);
-                        border-radius: 50%;
-                        pointer-events: none;
-                        transform: scale(0);
-                        animation: ripple 0.6s ease-out;
-                    `;
-                    
-                    this.style.position = 'relative';
-                    this.style.overflow = 'hidden';
-                    this.appendChild(ripple);
-                    
-                    setTimeout(() => ripple.remove(), 600);
-                });
-            });
-        }
-
-        // Add CSS for ripple animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(2);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Initialize all interactive features
-        document.addEventListener('DOMContentLoaded', function() {
-            displayProducts();
-            updateCartDisplay();
-            initializeInteractivity();
-        });
-
-        // Lazy loading for future image implementation
-        function lazyLoadImages() {
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.src = img.dataset.src;
-                        img.classList.remove('lazy');
-                        imageObserver.unobserve(img);
-                    }
-                });
-            });
-
-            document.querySelectorAll('img[data-src]').forEach(img => {
-                imageObserver.observe(img);
-            });
-        }
-
-        // Performance optimization: Debounced search
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-
-        // Replace immediate search with debounced version
-        const debouncedSearch = debounce(() => {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const filteredProducts = products.filter(product => 
-                product.name.toLowerCase().includes(searchTerm) ||
-                product.description.toLowerCase().includes(searchTerm) ||
-                product.category.toLowerCase().includes(searchTerm)
-            );
-            displayProducts(filteredProducts);
-        }, 300);
-
-        // Update search input to use debounced search
-        document.getElementById('searchInput').addEventListener('input', debouncedSearch);
-
-        // Add keyboard navigation support
-        document.addEventListener('keydown', function(e) {
-            // ESC to close cart
-            if (e.key === 'Escape') {
-                const cartSidebar = document.getElementById('cartSidebar');
-                if (cartSidebar.classList.contains('open')) {
-                    cartSidebar.classList.remove('open');
-                }
-            }
-            
-            // Ctrl/Cmd + K to focus search
-            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                document.getElementById('searchInput').focus();
-            }
-        });
-
-        // Add product comparison feature (future enhancement)
-        let compareList = [];
-
-        function addToCompare(productId) {
-            if (compareList.length >= 3) {
-                alert('You can only compare up to 3 products at a time.');
-                return;
-            }
-            
-            if (!compareList.includes(productId)) {
-                compareList.push(productId);
-                console.log('Added to comparison:', productId);
-            }
-        }
-
-        function showComparison() {
-            if (compareList.length === 0) {
-                alert('No products selected for comparison.');
-                return;
-            }
-            
-            const compareProducts = products.filter(p => compareList.includes(p.id));
-            console.log('Comparing products:', compareProducts);
-        }
-
-        // Add wishlist functionality (future enhancement)
-        let wishlist = [];
-
-        function toggleWishlist(productId) {
-            const index = wishlist.indexOf(productId);
-            if (index > -1) {
-                wishlist.splice(index, 1);
-                console.log('Removed from wishlist:', productId);
-            } else {
-                wishlist.push(productId);
-                console.log('Added to wishlist:', productId);
-            }
-        }
-
-        // Newsletter subscription (future enhancement)
-        function subscribeNewsletter(email) {
-            console.log('Newsletter subscription:', email);
-            alert('Thank you for subscribing to our newsletter!');
-        }
-
-        // Social sharing (future enhancement)
-        function shareProduct(productId, platform) {
-            const product = products.find(p => p.id === productId);
-            const url = `${window.location.origin}#product-${productId}`;
-            const text = `Check out this ${product.name} from Luxe Jewelry!`;
-            
-            console.log(`Sharing on ${platform}:`, { url, text });
+            app.checkout();
         }
     </script>
 </body>
+
 </html>
