@@ -97,9 +97,13 @@ class UIManager {
         card.className = 'product-card';
         card.setAttribute('data-category', product.category);
 
+        const imageHtml = product.image
+            ? `<img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">`
+            : `<span style="font-size: 5rem; opacity: 0.1;">${product.icon}</span>`;
+
         card.innerHTML = `
             <div class="product-image">
-                <span style="font-size: 5rem; opacity: 0.1;">${product.icon}</span>
+                ${imageHtml}
             </div>
             <div class="product-info">
                 <h3 class="product-name">${product.name}</h3>
