@@ -2,7 +2,4 @@
  A beautifully designed Jewelry Shop Website for selling elegant jewelry online. This project includes categorized products, a user-friendly interface, and a seamless shopping experience.  ✨ Features 🛍 Product Categories (rings, necklaces, bracelets, earrings, etc.) 🔎 Search & Filter for easy navigation 🛒 Add to Cart & Checkout functionality 📸 High-quality product images & descriptions 📧 Contact & Inquiry Form 📱 Responsive design for all devices 🛠 Technologies Used Frontend: HTML, CSS, JavaScript Backend: PHP Database: MySQL
 
 
- email js eka hadanna oni 
- search eka wada karana eka balanna oni 
- About eka
- Cart eka
+
