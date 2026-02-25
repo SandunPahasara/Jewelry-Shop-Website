@@ -31,7 +31,10 @@ class VideoSequenceManager {
         // Increment index and loop if necessary
         this.currentIndex = (this.currentIndex + 1) % this.videoPaths.length;
 
-        // Apply a brief fade transition if possible
+        // Trigger Golden Rain effect
+        this.triggerGoldenRain();
+
+        // Apply cinematic fade transition
         this.videoElement.style.opacity = '0';
 
         setTimeout(() => {
@@ -41,7 +44,38 @@ class VideoSequenceManager {
                 this.videoElement.play();
                 this.videoElement.style.opacity = '1';
             };
-        }, 500); // 500ms fade transition
+        }, 800); // Wait for golden rain peak
+    }
+
+    triggerGoldenRain() {
+        const container = document.getElementById('goldenRain');
+        if (!container) return;
+
+        // Clear previous particles
+        container.innerHTML = '';
+        container.classList.add('active');
+
+        // Create new particles
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'gold-particle';
+
+            // Randomize position and animation
+            const left = Math.random() * 100 + '%';
+            const duration = (Math.random() * 2 + 1) + 's';
+            const delay = (Math.random() * 0.5) + 's';
+
+            particle.style.left = left;
+            particle.style.animationDuration = duration;
+            particle.style.animationDelay = delay;
+
+            container.appendChild(particle);
+        }
+
+        // Deactivate after transition finishes
+        setTimeout(() => {
+            container.classList.remove('active');
+        }, 3000);
     }
 }
 
