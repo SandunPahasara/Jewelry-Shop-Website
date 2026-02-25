@@ -33,10 +33,9 @@
 
     <main>
         <section class="hero" id="home">
-            <video autoplay muted playsinline class="hero-video" id="heroVideo" style="transition: opacity 0.8s ease;">
-                <!-- Videos will be injected by VideoSequenceManager.js -->
+            <video autoplay muted loop playsinline class="hero-video" id="heroVideo">
+                <source src="images/intro-video.mp4" type="video/mp4">
             </video>
-            <div id="goldenRain" class="golden-rain-container"></div>
             <div class="hero-overlay"></div>
             <div class="hero-content">
                 <p>Colombo's Legacy Since 2010</p>
@@ -62,13 +61,19 @@
                 </p>
             </div>
             <div class="heritage-image">
-                <img src="images/heritage-display.jpg" alt="Our Craftsmanship">
+                <video autoplay muted loop playsinline class="section-video">
+                    <source src="images/heritage-display.mp4" type="video/mp4">
+                </video>
             </div>
         </section>
 
         <!-- Discovery Row (Gems focus) -->
         <div class="discovery-row">
-            <div class="discovery-image"></div>
+            <div class="discovery-image">
+                <video autoplay muted loop playsinline class="section-video">
+                    <source src="images/gems-bg.mp4" type="video/mp4">
+                </video>
+            </div>
             <div class="discovery-text">
                 <h2>Unique Gems</h2>
                 <p>
@@ -249,7 +254,6 @@
     <script src="components/CartManager.js"></script>
     <script src="components/UIManager.js"></script>
     <script src="components/FormManager.js"></script>
-    <script src="components/VideoSequenceManager.js"></script>
     <script src="components/App.js"></script>
 
     <script>
