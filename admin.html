@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxe Jewelry - Admin Dashboard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+    <!-- Login View -->
+    <div id="loginView" class="view-container active">
+        <div class="login-box">
+            <h1 class="logo">Luxe Admin</h1>
+            <p>Sign in to manage your collections</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="adminEmail">Email</label>
+                    <input type="email" id="adminEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" required>
+                </div>
+                <div id="loginError" class="error-msg"></div>
+                <button type="submit" class="admin-btn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard View -->
+    <div id="dashboardView" class="view-container">
+        <nav class="admin-nav">
+            <div class="logo">Luxe Admin</div>
+            <button id="logoutBtn" class="admin-btn outline">Logout</button>
+        </nav>
+
+        <main class="dashboard-main">
+            <!-- Add Product Section -->
+            <section class="admin-section">
+                <h2>Add New Product</h2>
+                <form id="addProductForm" class="product-form">
+                    <div class="form-grid">
+                        <div class="form-group image-upload-group">
+                            <label for="productImage">Product Image</label>
+                            <input type="file" id="productImage" accept="image/*" required>
+                            <div id="imagePreview" class="image-preview">
+                                <span>+ Select Image</span>
+                            </div>
+                        </div>
+
+                        <div class="form-inputs">
+                            <div class="form-group">
+                                <label for="productName">Product Name</label>
+                                <input type="text" id="productName" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productPrice">Price (USD)</label>
+                                <input type="number" id="productPrice" min="0" step="0.01" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productCategory">Collection (Category)</label>
+                                <select id="productCategory" required>
+                                    <option value="Rings">The Rings</option>
+                                    <option value="Necklaces">Necklaces</option>
+                                    <option value="Earrings">Earrings</option>
+                                    <option value="Bracelets">Bracelets</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productDescription">Description</label>
+                                <textarea id="productDescription" rows="4" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submitProductBtn" class="admin-btn primary">
+                        <i class="fas fa-plus"></i> Add Product
+                    </button>
+                    <div id="uploadStatus" class="status-msg"></div>
+                </form>
+            </section>
+
+            <!-- Manage Products Section -->
+            <section class="admin-section">
+                <h2>Manage Products</h2>
+                <div class="products-table-container">
+                    <table class="products-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminProductsList">
+                            <!-- Products will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Migration Tool (Hidden by default, used to migrate old data) -->
+            <section class="admin-section" style="margin-top: 4rem; border-top: 1px solid #ddd; padding-top: 2rem;">
+                <h3>System Tools</h3>
+                <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">Use this tool once to migrate hardcoded
+                    products to the database.</p>
+                <button id="migrateDataBtn" class="admin-btn outline"
+                    style="border-color: #ff9800; color: #ff9800;">Migrate Old Data to Firebase</button>
+                <div id="migrateStatus" style="margin-top: 1rem; font-size: 0.9rem;"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Firebase SDK (Modular) -->
+    <script type="module" src="components/AdminManager.js"></script>
+    <script type="module" src="components/ProductManager.js"></script> <!-- Needed for migration tool -->
+</body>
+
+</html>
