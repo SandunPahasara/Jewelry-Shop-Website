@@ -15,36 +15,58 @@
 </head>
 
 <body>
-    <header>
+    <header style="position: relative; overflow: hidden;">
+        <!-- Golden Rain Container for Header -->
+        <canvas id="headerRainCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;"></canvas>
         <nav>
-            <div class="logo"> Luxe Jewelry</div>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#products">Products</a></li>
-                <li><a href="#aboutus">About us</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="?#home">Home</a></li>
+                <li><a href="?#products">Products</a></li>
+                <li><a href="?#heritage">About us</a></li>
+                <li><a href="?#contact">Contact</a></li>
             </ul>
-            <div class="cart-icon" onclick="toggleCart()">
-                🛒
-                <div class="cart-count" id="cartCount">0</div>
+            <div class="logo"> Luxe Jewelry</div>
+            <div style="display: flex; align-items: center; gap: 2rem;">
+                <!-- Unauthenticated view -->
+                <div id="loggedOutView" style="display: flex; align-items: center;">
+                    <div class="auth-icon" onclick="app.ui.toggleAuthModal()" style="cursor: pointer; font-size: 1.2rem; color: var(--primary-color);">
+                        <i class="fas fa-user"></i> <span style="font-size: 0.8rem; font-family: 'Inter', sans-serif; text-transform: uppercase; margin-left: 0.5rem;">Sign In</span>
+                    </div>
+                </div>
+                
+                <!-- Authenticated view -->
+                <div id="loggedInView" style="display: none; align-items: center; gap: 1rem;">
+                    <div class="auth-icon" onclick="app.ui.openProfileModal()" style="cursor: pointer; font-size: 1.2rem; color: var(--primary-color);" title="My Profile">
+                        <i class="fas fa-user-circle"></i> <span style="font-size: 0.8rem; font-family: 'Inter', sans-serif; text-transform: uppercase; margin-left: 0.5rem; margin-right: 0.5rem;">Profile</span>
+                    </div>
+                    <div class="auth-icon" onclick="app.auth.logout()" style="cursor: pointer; font-size: 1.2rem; color: var(--text-muted);" title="Sign Out">
+                        <i class="fas fa-sign-out-alt"></i> <span style="font-size: 0.8rem; font-family: 'Inter', sans-serif; text-transform: uppercase; margin-left: 0.5rem;">Sign Out</span>
+                    </div>
+                </div>
+                <div class="cart-icon" onclick="toggleCart()">
+                    🛒
+                    <div class="cart-count" id="cartCount">0</div>
+                </div>
             </div>
         </nav>
     </header>
 
     <main>
-        <section class="hero" id="home">
-            <video autoplay muted loop playsinline class="hero-video" id="heroVideo">
-                <source src="images/intro-video.mp4" type="video/mp4">
-            </video>
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-                <p>Colombo's Legacy Since 2010</p>
-                <h1>The Fine Art of High Fashion Jewellery</h1>
-                <div class="hero-actions">
-                    <a href="#products" class="submit-btn" style="text-decoration: none;">Explore Collection</a>
+        <!-- Home View -->
+        <div id="homeView">
+            <section class="hero" id="home">
+                <video autoplay muted loop playsinline class="hero-video" id="heroVideo">
+                    <source src="images/intro-video.mp4" type="video/mp4">
+                </video>
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <p>Colombo's Legacy Since 2010</p>
+                    <h1>The Fine Art of High Fashion Jewellery</h1>
+                    <div class="hero-actions">
+                        <a href="#products" class="submit-btn" style="text-decoration: none;">Explore Collection</a>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
         <!-- Heritage Section (Storytelling) -->
         <section class="heritage-section" id="heritage">
@@ -130,9 +152,9 @@
                 <p>Radiant Sparkle</p>
             </div>
             <div class="category-card" data-category="bracelets" onclick="filterProducts('bracelets')">
-                <div class="category-icon"><img
-                        src="images/closeup-shot-female-pink-dress-wearing-beautiful-silver-bracelet-with-heart-pendant.jpg"
-                        alt="Bracelets" style="width: 160px; height: 160px; object-fit: cover; border-radius: 50%;">
+                <div class="category-icon">
+                    <img src="images/closeup-shot-female-pink-dress-wearing-beautiful-silver-bracelet-with-heart-pendant.jpg"
+                        alt="Bracelets">
                 </div>
                 <h3>Bracelets</h3>
                 <p>Bangles & Chains</p>
@@ -208,6 +230,25 @@
                 </div>
             </div>
         </section>
+        </div> <!-- End of homeView -->
+
+        <!-- Product Page View -->
+        <div id="productPageView" style="display: none;">
+            <div class="product-page-container" id="productPageContent">
+                <!-- Loading state -->
+                <div style="text-align: center; padding: 5rem 0;">
+                    <p>Loading beautifully crafted details...</p>
+                </div>
+            </div>
+
+            <!-- Related Products Section -->
+            <div class="product-page-container related-products-section" style="display: none;" id="relatedProductsSection">
+                <h2 class="section-title">You May Also Like</h2>
+                <div class="products-grid" id="relatedProductsGrid">
+                    <!-- Related products will be injected here -->
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Cart Sidebar -->
@@ -234,10 +275,10 @@
         <div class="footer-content">
             <div class="logo" style="color: white; margin-bottom: 2rem; font-size: 2rem;">Luxe Jewelry</div>
             <div class="footer-links">
-                <a href="#home">Home</a>
-                <a href="#heritage">Heritage</a>
-                <a href="#products">Collections</a>
-                <a href="#contact">Contact</a>
+                <a href="?#home">Home</a>
+                <a href="?#heritage">Heritage</a>
+                <a href="?#products">Collections</a>
+                <a href="?#contact">Contact</a>
             </div>
             <div class="footer-social-bottom">
                 <a href="#"><i class="fab fa-instagram"></i></a>
@@ -249,12 +290,105 @@
         </div>
     </footer>
 
+    <!-- Profile Modal -->
+    <div id="profileModal" class="auth-modal" style="display: none; z-index: 2000;">
+        <div class="auth-modal-content" style="max-width: 500px;">
+            <span class="close-auth" onclick="app.ui.closeProfileModal()">&times;</span>
+            <div id="profileFormContainer">
+                <h2>My Profile</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Manage your personal information and shipping details.</p>
+                <form id="userProfileForm" onsubmit="app.ui.handleProfileUpdate(event)">
+                    <div class="form-group">
+                        <label for="profileName">Full Name</label>
+                        <input type="text" id="profileName" required>
+                    </div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="profileEmail">Email Address (Read-only)</label>
+                        <input type="email" id="profileEmail" readonly style="background-color: #f5f5f5; color: #666; cursor: not-allowed; border-color: #ddd;">
+                    </div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="profilePhone">Mobile Phone</label>
+                        <input type="tel" id="profilePhone" placeholder="+94 77 123 4567">
+                    </div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="profileAddress">Shipping Address</label>
+                        <textarea id="profileAddress" rows="3" placeholder="Enter your full shipping address..." style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-bottom: 2px solid var(--primary-color); background: rgba(255, 255, 255, 0.9); font-family: 'Inter', sans-serif; outline: none;"></textarea>
+                    </div>
+                    <div id="profileMessage" style="font-size: 0.85rem; margin-top: 1rem; font-weight: bold;"></div>
+                    <button type="submit" class="submit-btn" style="width: 100%; margin-top: 2rem;" id="profileSubmitBtn">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="auth-modal" style="display: none;">
+        <div class="auth-modal-content">
+            <span class="close-auth" onclick="app.ui.toggleAuthModal()">&times;</span>
+
+            <!-- Login Form -->
+            <div id="loginFormContainer">
+                <h2>Welcome Back</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Sign in to check out and
+                    save your favorites.</p>
+                <form id="userLoginForm" onsubmit="app.ui.handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input type="email" id="loginEmail" required placeholder="your@email.com">
+                    </div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" required placeholder="••••••••">
+                    </div>
+                    <div id="loginError" style="color: red; font-size: 0.8rem; margin-top: 1rem;"></div>
+                    <button type="submit" class="submit-btn" style="width: 100%; margin-top: 2rem;"
+                        id="loginSubmitBtn">Sign In</button>
+                </form>
+                <p style="margin-top: 1.5rem; font-size: 0.8rem; text-align: center;">New to Luxe Jewelry? <a href="#"
+                        onclick="app.ui.switchAuthMode('register')"
+                        style="color: var(--accent-color); font-weight: bold; text-decoration: none;">Create an
+                        Account</a></p>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerFormContainer" style="display: none;">
+                <h2>Create Account</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Join us to experience the
+                    finest jewelry.</p>
+                <form id="userRegisterForm" onsubmit="app.ui.handleRegister(event)">
+                    <div class="form-group">
+                        <label for="registerName">Full Name</label>
+                        <input type="text" id="registerName" required placeholder="John Doe">
+                    </div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="registerEmail">Email Address</label>
+                        <input type="email" id="registerEmail" required placeholder="your@email.com">
+                    </div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" required placeholder="••••••••" minlength="6">
+                    </div>
+                    <div id="registerError" style="color: red; font-size: 0.8rem; margin-top: 1rem;"></div>
+                    <button type="submit" class="submit-btn" style="width: 100%; margin-top: 2rem;"
+                        id="registerSubmitBtn">Create Account</button>
+                </form>
+                <p style="margin-top: 1.5rem; font-size: 0.8rem; text-align: center;">Already have an account? <a
+                        href="#" onclick="app.ui.switchAuthMode('login')"
+                        style="color: var(--accent-color); font-weight: bold; text-decoration: none;">Sign In</a></p>
+            </div>
+
+        </div>
+    </div>
+
     <!-- Component Scripts -->
-    <script src="components/ProductManager.js"></script>
+    <script type="module" src="components/firebase-config.js"></script>
+    <script type="module" src="components/AuthManager.js"></script>
+    <script type="module" src="components/ProductManager.js"></script>
     <script src="components/CartManager.js"></script>
     <script src="components/UIManager.js"></script>
     <script src="components/FormManager.js"></script>
-    <script src="components/App.js"></script>
+    <script type="module" src="components/App.js"></script>
+    <script type="module" src="components/ProductPage.js"></script>
 
     <script>
         // Legacy functions for backward compatibility with inline onclick handlers
