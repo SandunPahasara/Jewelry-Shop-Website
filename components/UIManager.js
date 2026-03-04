@@ -18,13 +18,14 @@ class UIManager {
         if (this.searchInputElement) {
             this.searchInputElement.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
-                    this.handleSearch();
+                    e.preventDefault();
+                    this.handleSearch(true); // true = scroll to results
                 }
             });
 
-            // Debounced search
+            // Debounced live search
             this.searchInputElement.addEventListener('input', this.debounce(() => {
-                this.handleSearch();
+                this.handleSearch(false); // don't auto-scroll while typing
             }, 300));
         }
 
@@ -109,9 +110,9 @@ class UIManager {
                 <h3 class="product-name">${product.name}</h3>
                 <p class="product-description">${product.description}</p>
                 <p class="product-price">$${product.price.toLocaleString()}</p>
-                <button class="add-to-cart" onclick="app.addToCart(${product.id})">
+                <a href="?product=${product.id}" class="add-to-cart" style="text-decoration: none; display: flex; justify-content: center; align-items: center; box-sizing: border-box;">
                     Explore & Purchase
-                </button>
+                </a>
             </div>
         `;
 
@@ -133,15 +134,33 @@ class UIManager {
         this.displayProducts(products);
     }
 
-    handleSearch() {
+    handleSearch(fromButton = false) {
         if (!this.searchInputElement) return;
 
         const searchTerm = this.searchInputElement.value;
+        const productsSectionTitle = document.querySelector('#products .section-title');
+
         if (searchTerm.trim() === '') {
+            if (productsSectionTitle) productsSectionTitle.textContent = 'Featured Products';
             this.displayProducts();
         } else {
+            if (productsSectionTitle) productsSectionTitle.textContent = `Search Results for "${searchTerm}"`;
             const products = this.productManager.searchProducts(searchTerm);
+
+            // Remove active state from collection categories since we are viewing a search
+            document.querySelectorAll('.category-card').forEach(card => card.classList.remove('active'));
+
             this.displayProducts(products);
+
+            // Auto-scroll to results if triggered explicitly or if they hit Enter/Click
+            // We use fromButton or check if the event was a keypress
+            if (fromButton && this.productsGridElement) {
+                // Determine the parent section to scroll to nicely
+                const section = document.getElementById('products');
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
         }
     }
 
@@ -172,5 +191,223 @@ class UIManager {
             clearTimeout(timeout);
             timeout = setTimeout(later, wait);
         };
+    }
+
+    // --- Product Details Methods ---
+    openProductDetails(productId) {
+        const product = this.productManager.getProductById(productId);
+        if (!product) return;
+
+        const modal = document.getElementById('productDetailsModal');
+        const imgContainer = document.getElementById('productDetailsImage');
+        const nameEl = document.getElementById('productDetailsName');
+        const categoryEl = document.getElementById('productDetailsCategory');
+        const descEl = document.getElementById('productDetailsDescription');
+        const priceEl = document.getElementById('productDetailsPrice');
+        const addBtn = document.getElementById('productDetailsAddToCart');
+
+        if (product.image) {
+            imgContainer.innerHTML = `<img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">`;
+        } else {
+            imgContainer.innerHTML = `<span style="font-size: 5rem; opacity: 0.1;">${product.icon}</span>`;
+        }
+
+        nameEl.textContent = product.name;
+        categoryEl.textContent = product.category;
+        descEl.textContent = product.description;
+        priceEl.textContent = `$${product.price.toLocaleString()}`;
+
+        // Set up the Add to Cart button
+        addBtn.onclick = (event) => {
+            app.addToCart(productId, event);
+        };
+
+        modal.style.display = 'flex';
+    }
+
+    closeProductDetails() {
+        const modal = document.getElementById('productDetailsModal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    // --- Authentication UI Methods ---
+
+    toggleAuthModal() {
+        const modal = document.getElementById('authModal');
+        if (modal) {
+            if (modal.style.display === 'none' || modal.style.display === '') {
+                modal.style.display = 'flex';
+                this.switchAuthMode('login'); // Default to login view
+            } else {
+                modal.style.display = 'none';
+            }
+        }
+    }
+
+    switchAuthMode(mode) {
+        const loginContainer = document.getElementById('loginFormContainer');
+        const registerContainer = document.getElementById('registerFormContainer');
+        const loginError = document.getElementById('loginError');
+        const registerError = document.getElementById('registerError');
+
+        if (mode === 'login') {
+            loginContainer.style.display = 'block';
+            registerContainer.style.display = 'none';
+        } else {
+            loginContainer.style.display = 'none';
+            registerContainer.style.display = 'block';
+        }
+
+        // Clear errors when switching
+        if (loginError) loginError.textContent = '';
+        if (registerError) registerError.textContent = '';
+    }
+
+    async handleLogin(event) {
+        event.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        const btn = document.getElementById('loginSubmitBtn');
+        const errorEl = document.getElementById('loginError');
+
+        btn.disabled = true;
+        btn.textContent = 'Signing in...';
+        errorEl.textContent = '';
+
+        const result = await app.auth.login(email, password);
+
+        if (result.success) {
+            this.toggleAuthModal();
+            document.getElementById('userLoginForm').reset();
+        } else {
+            errorEl.textContent = result.error;
+        }
+
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+    }
+
+    async handleRegister(event) {
+        event.preventDefault();
+        const name = document.getElementById('registerName').value;
+        const email = document.getElementById('registerEmail').value;
+        const password = document.getElementById('registerPassword').value;
+        const btn = document.getElementById('registerSubmitBtn');
+        const errorEl = document.getElementById('registerError');
+
+        btn.disabled = true;
+        btn.textContent = 'Creating account...';
+        errorEl.textContent = '';
+
+        const result = await app.auth.register(name, email, password);
+
+        if (result.success) {
+            this.toggleAuthModal();
+            document.getElementById('userRegisterForm').reset();
+        } else {
+            errorEl.textContent = result.error;
+        }
+
+        btn.disabled = false;
+        btn.textContent = 'Create Account';
+    }
+
+    updateAuthUI(isLoggedIn, userEmail = '') {
+        const loggedOutView = document.getElementById('loggedOutView');
+        const loggedInView = document.getElementById('loggedInView');
+
+        // Fallbacks for older pages if they still use the old auth button structure
+        const authStatusText = document.getElementById('authStatusText');
+        const authBtnIcon = document.querySelector('#authBtn i');
+        const authBtn = document.getElementById('authBtn');
+
+        if (loggedOutView && loggedInView) {
+            if (isLoggedIn) {
+                loggedOutView.style.display = 'none';
+                loggedInView.style.display = 'flex';
+            } else {
+                loggedOutView.style.display = 'flex';
+                loggedInView.style.display = 'none';
+            }
+        } else if (authBtn) {
+            // Legacy handling
+            if (isLoggedIn) {
+                authStatusText.textContent = 'Sign Out';
+                authBtnIcon.className = 'fas fa-sign-out-alt';
+                authBtn.onclick = async () => {
+                    await app.auth.logout();
+                };
+            } else {
+                authStatusText.textContent = 'Sign In';
+                authBtnIcon.className = 'fas fa-user';
+                authBtn.onclick = () => {
+                    this.toggleAuthModal();
+                };
+            }
+        }
+    }
+
+    // --- Profile Modal UI ---
+    openProfileModal() {
+        if (!app.auth.currentUser) return;
+        
+        const modal = document.getElementById('profileModal');
+        const userData = app.auth.currentUserData || {};
+        
+        // Populate form
+        document.getElementById('profileName').value = userData.name || '';
+        document.getElementById('profileEmail').value = app.auth.currentUser.email || '';
+        document.getElementById('profilePhone').value = userData.phone || '';
+        document.getElementById('profileAddress').value = userData.address || '';
+        
+        const msgEl = document.getElementById('profileMessage');
+        if (msgEl) msgEl.textContent = '';
+        
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+
+    closeProfileModal() {
+        const modal = document.getElementById('profileModal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    async handleProfileUpdate(event) {
+        event.preventDefault();
+        
+        const btn = document.getElementById('profileSubmitBtn');
+        const msgEl = document.getElementById('profileMessage');
+        
+        const profileData = {
+            name: document.getElementById('profileName').value,
+            phone: document.getElementById('profilePhone').value,
+            address: document.getElementById('profileAddress').value
+        };
+
+        btn.disabled = true;
+        btn.textContent = 'Saving...';
+        msgEl.textContent = 'Updating profile...';
+        msgEl.style.color = 'var(--text-muted)';
+
+        const result = await app.auth.updateUserProfile(profileData);
+
+        if (result.success) {
+            msgEl.textContent = 'Profile updated successfully!';
+            msgEl.style.color = '#28a745';
+            setTimeout(() => {
+                this.closeProfileModal();
+            }, 1000);
+        } else {
+            msgEl.textContent = result.error;
+            msgEl.style.color = 'red';
+        }
+
+        btn.disabled = false;
+        btn.textContent = 'Save Changes';
     }
 }

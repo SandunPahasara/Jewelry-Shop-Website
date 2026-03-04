@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxe Jewelry | Product Details</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Product Page Specific Styles */
+        .product-page-container {
+            max-width: 1200px;
+            margin: 120px auto 4rem;
+            padding: 0 5%;
+        }
+
+        .product-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .product-image-container {
+            background: var(--bg-soft);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-height: 500px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .new-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--accent-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 2;
+            border-radius: 4px;
+        }
+
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .product-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .product-category {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .product-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .product-description {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Ratings Section */
+        .reviews-section {
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-light);
+            padding-top: 4rem;
+        }
+
+        .reviews-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .average-rating {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .average-rating h3 {
+            font-size: 3rem;
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .stars {
+            color: #FFD700;
+            font-size: 1.2rem;
+        }
+
+        .star-empty {
+            color: #ddd;
+        }
+
+        .review-form {
+            background: var(--bg-soft);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 3rem;
+        }
+
+        .review-form h4 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .review-card {
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 1.5rem;
+        }
+
+        .review-author {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .review-date {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+        }
+
+        .review-text {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-top: 0.5rem;
+        }
+
+        /* Related Products */
+        .related-products-section {
+            margin-top: 6rem;
+            margin-bottom: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .product-main {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo"> Luxe Jewelry</div>
+            <ul class="nav-links">
+                <li><a href="Homepage.html#home">Home</a></li>
+                <li><a href="Homepage.html#products">Products</a></li>
+                <li><a href="Homepage.html#aboutus">About us</a></li>
+                <li><a href="Homepage.html#contact">Contact</a></li>
+            </ul>
+            <div style="display: flex; align-items: center; gap: 2rem;">
+                <div class="auth-icon" id="authBtn" onclick="app.ui.toggleAuthModal()"
+                    style="cursor: pointer; font-size: 1.2rem; color: var(--primary-color);">
+                    <i class="fas fa-user"></i> <span id="authStatusText"
+                        style="font-size: 0.8rem; font-family: 'Inter', sans-serif; text-transform: uppercase; margin-left: 0.5rem;">Sign
+                        In</span>
+                </div>
+                <div class="cart-icon" onclick="toggleCart()">
+                    🛒
+                    <div class="cart-count" id="cartCount">0</div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="product-page-container" id="productPageContent">
+            <!-- Loading state -->
+            <div style="text-align: center; padding: 5rem 0;">
+                <p>Loading beautifully crafted details...</p>
+            </div>
+        </div>
+
+        <!-- Related Products Section -->
+        <div class="product-page-container related-products-section" style="display: none;" id="relatedProductsSection">
+            <h2 class="section-title">You May Also Like</h2>
+            <div class="products-grid" id="relatedProductsGrid">
+                <!-- Related products will be injected here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <div id="cartSidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Your Shopping Cart</h2>
+            <span class="close-cart" onclick="toggleCart()">&times;</span>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total</span>
+                <span id="totalAmount">$0.00</span>
+            </div>
+            <button class="checkout-btn" onclick="app.checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="auth-modal" style="display: none;">
+        <div class="auth-modal-content">
+            <span class="close-auth" onclick="app.ui.toggleAuthModal()">&times;</span>
+
+            <!-- Login Form -->
+            <div id="loginFormContainer">
+                <h2>Welcome Back</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Sign in to check out and
+                    save your favorites.</p>
+                <form id="userLoginForm" onsubmit="app.ui.handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input type="email" id="loginEmail" required placeholder="your@email.com">
+                    </div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" required placeholder="••••••••">
+                    </div>
+                    <div id="loginError" style="color: red; font-size: 0.8rem; margin-top: 1rem;"></div>
+                    <button type="submit" class="submit-btn" style="width: 100%; margin-top: 2rem;"
+                        id="loginSubmitBtn">Sign In</button>
+                </form>
+                <p style="margin-top: 1.5rem; font-size: 0.8rem; text-align: center;">New to Luxe Jewelry? <a href="#"
+                        onclick="app.ui.switchAuthMode('register')"
+                        style="color: var(--accent-color); font-weight: bold; text-decoration: none;">Create an
+                        Account</a></p>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerFormContainer" style="display: none;">
+                <h2>Create Account</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Join us to experience the
+                    finest jewelry.</p>
+                <form id="userRegisterForm" onsubmit="app.ui.handleRegister(event)">
+                    <div class="form-group">
+                        <label for="registerName">Full Name</label>
+                        <input type="text" id="registerName" required placeholder="John Doe">
+                    </div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="registerEmail">Email Address</label>
+                        <input type="email" id="registerEmail" required placeholder="your@email.com">
+                    </div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" required placeholder="••••••••" minlength="6">
+                    </div>
+                    <div id="registerError" style="color: red; font-size: 0.8rem; margin-top: 1rem;"></div>
+                    <button type="submit" class="submit-btn" style="width: 100%; margin-top: 2rem;"
+                        id="registerSubmitBtn">Create Account</button>
+                </form>
+                <p style="margin-top: 1.5rem; font-size: 0.8rem; text-align: center;">Already have an account? <a
+                        href="#" onclick="app.ui.switchAuthMode('login')"
+                        style="color: var(--accent-color); font-weight: bold; text-decoration: none;">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo" style="color: white; margin-bottom: 2rem; font-size: 2rem;">Luxe Jewelry</div>
+            <div class="footer-links">
+                <a href="Homepage.html#home">Home</a>
+                <a href="Homepage.html#heritage">Heritage</a>
+                <a href="Homepage.html#products">Collections</a>
+                <a href="Homepage.html#contact">Contact</a>
+            </div>
+            <div class="footer-social-bottom">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-pinterest-p"></i></a>
+            </div>
+            <p style="margin-top: 3rem; font-size: 0.7rem; opacity: 0.5; letter-spacing: 1px;">&copy; 2025 Luxe Jewelry.
+                All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Component Scripts -->
+    <script type="module" src="components/firebase-config.js"></script>
+    <script type="module" src="components/AuthManager.js"></script>
+    <script type="module" src="components/ProductManager.js"></script>
+    <script src="components/CartManager.js"></script>
+    <script src="components/UIManager.js"></script>
+    <script src="components/FormManager.js"></script>
+    <script type="module" src="components/App.js"></script>
+    <script type="module" src="components/ProductPage.js"></script>
+</body>
+
+</html>

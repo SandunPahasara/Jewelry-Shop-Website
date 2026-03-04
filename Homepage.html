@@ -17,7 +17,8 @@
 <body>
     <header style="position: relative; overflow: hidden;">
         <!-- Golden Rain Container for Header -->
-        <canvas id="headerRainCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;"></canvas>
+        <canvas id="headerRainCanvas"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;"></canvas>
         <nav>
             <ul class="nav-links">
                 <li><a href="?#home">Home</a></li>
@@ -26,21 +27,29 @@
                 <li><a href="?#contact">Contact</a></li>
             </ul>
             <a href="#home" class="logo" style="text-decoration: none;"> Luxe Jewelry</a>
-            <div style="display: flex; align-items: center; gap: 2rem;">
+            <div class="nav-actions">
                 <!-- Unauthenticated view -->
                 <div id="loggedOutView" style="display: flex; align-items: center;">
-                    <div class="auth-icon" onclick="app.ui.toggleAuthModal()" style="cursor: pointer; font-size: 1.2rem; color: var(--primary-color);">
-                        <i class="fas fa-user"></i> <span style="font-size: 0.8rem; font-family: 'Inter', sans-serif; text-transform: uppercase; margin-left: 0.5rem;">Sign In</span>
+                    <div class="auth-icon" onclick="app.ui.toggleAuthModal()"
+                        style="cursor: pointer; font-size: 1.2rem; color: var(--primary-color);">
+                        <i class="fas fa-user"></i> <span
+                            style="font-size: 0.8rem; font-family: 'Inter', sans-serif; text-transform: uppercase; margin-left: 0.5rem;">Sign
+                            In</span>
                     </div>
                 </div>
-                
+
                 <!-- Authenticated view -->
                 <div id="loggedInView" style="display: none; align-items: center; gap: 1rem;">
-                    <div class="auth-icon" onclick="app.ui.openProfileModal()" style="cursor: pointer; font-size: 1.2rem; color: var(--primary-color);" title="My Profile">
-                        <i class="fas fa-user-circle"></i> <span style="font-size: 0.8rem; font-family: 'Inter', sans-serif; text-transform: uppercase; margin-left: 0.5rem; margin-right: 0.5rem;">Profile</span>
+                    <div class="auth-icon" onclick="app.ui.openProfileModal()"
+                        style="cursor: pointer; font-size: 1.2rem; color: var(--primary-color);" title="My Profile">
+                        <i class="fas fa-user-circle"></i> <span
+                            style="font-size: 0.8rem; font-family: 'Inter', sans-serif; text-transform: uppercase; margin-left: 0.5rem; margin-right: 0.5rem;">Profile</span>
                     </div>
-                    <div class="auth-icon" onclick="app.auth.logout()" style="cursor: pointer; font-size: 1.2rem; color: var(--text-muted);" title="Sign Out">
-                        <i class="fas fa-sign-out-alt"></i> <span style="font-size: 0.8rem; font-family: 'Inter', sans-serif; text-transform: uppercase; margin-left: 0.5rem;">Sign Out</span>
+                    <div class="auth-icon" onclick="app.auth.logout()"
+                        style="cursor: pointer; font-size: 1.2rem; color: var(--text-muted);" title="Sign Out">
+                        <i class="fas fa-sign-out-alt"></i> <span
+                            style="font-size: 0.8rem; font-family: 'Inter', sans-serif; text-transform: uppercase; margin-left: 0.5rem;">Sign
+                            Out</span>
                     </div>
                 </div>
                 <div class="cart-icon" onclick="toggleCart()">
@@ -68,168 +77,173 @@
                 </div>
             </section>
 
-        <!-- Heritage Section (Storytelling) -->
-        <section class="heritage-section" id="heritage">
-            <div class="heritage-content">
-                <h2>Our Heritage</h2>
-                <p>
-                    With a design heritage that focus on nearly two decades, Luxe Jewelry has perfected the fine art of
-                    themed portrayals. Each piece reflects substance and meaning that go beyond surface beauty.
-                </p>
-                <p>
-                    This characteristic uniqueness is deeply rooted in our design approach; practiced by the craftsmen
-                    of the Luxe family who are among the finest in the trade. Everything we do is a labour of passion,
-                    and every creation at our hands; a memorable statement of elegance.
-                </p>
-            </div>
-            <div class="heritage-image">
-                <video autoplay muted loop playsinline class="section-video">
-                    <source src="images/heritage-display.mp4" type="video/mp4">
-                </video>
-            </div>
-        </section>
+            <!-- Heritage Section (Storytelling) -->
+            <section class="heritage-section" id="heritage">
+                <div class="heritage-content">
+                    <h2>Our Heritage</h2>
+                    <p>
+                        With a design heritage that focus on nearly two decades, Luxe Jewelry has perfected the fine art
+                        of
+                        themed portrayals. Each piece reflects substance and meaning that go beyond surface beauty.
+                    </p>
+                    <p>
+                        This characteristic uniqueness is deeply rooted in our design approach; practiced by the
+                        craftsmen
+                        of the Luxe family who are among the finest in the trade. Everything we do is a labour of
+                        passion,
+                        and every creation at our hands; a memorable statement of elegance.
+                    </p>
+                </div>
+                <div class="heritage-image">
+                    <video autoplay muted loop playsinline class="section-video">
+                        <source src="images/heritage-display.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </section>
 
-        <!-- Discovery Row (Gems focus) -->
-        <div class="discovery-row">
-            <div class="discovery-image">
-                <video autoplay muted loop playsinline class="section-video">
-                    <source src="images/gems-bg.mp4" type="video/mp4">
-                </video>
-            </div>
-            <div class="discovery-text">
-                <h2>Unique Gems</h2>
-                <p>
-                    We feature some of the most stunning selections of precious gems, discovered and sourced through the
-                    finest purveyors. Taking center stage are our unique sapphires and emeralds.
-                </p>
-                <div style="margin-top: 2rem;">
-                    <a href="#products" class="submit-btn" style="text-decoration: none; display: inline-block;">View
-                        Collection</a>
+            <!-- Discovery Row (Gems focus) -->
+            <div class="discovery-row">
+                <div class="discovery-image">
+                    <video autoplay muted loop playsinline class="section-video">
+                        <source src="images/gems-bg.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="discovery-text">
+                    <h2>Unique Gems</h2>
+                    <p>
+                        We feature some of the most stunning selections of precious gems, discovered and sourced through
+                        the
+                        finest purveyors. Taking center stage are our unique sapphires and emeralds.
+                    </p>
+                    <div style="margin-top: 2rem;">
+                        <a href="#products" class="submit-btn"
+                            style="text-decoration: none; display: inline-block;">View
+                            Collection</a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <section class="search-container">
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Discover your next treasure...">
-                <button onclick="searchProducts()">🔍</button>
-            </div>
-        </section>
-        <section class="section-title">
-            <h2>The Collections</h2>
-            <p
-                style="text-align: center; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; margin-top: 1rem;">
-                Curated Excellence</p>
-        </section>
+            <section class="search-container">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Discover your next treasure...">
+                    <button onclick="searchProducts()">🔍</button>
+                </div>
+            </section>
+            <section class="section-title">
+                <h2>The Collections</h2>
+                <p
+                    style="text-align: center; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; margin-top: 1rem;">
+                    Curated Excellence</p>
+            </section>
 
-        <section class="categories" id="collections">
-            <div class="category-card active" onclick="filterProducts('all')">
-                <div class="category-icon">
-                    <img src="images/All-Jewelry.jpg" alt="All Collections">
+            <section class="categories" id="collections">
+                <div class="category-card active" onclick="filterProducts('all')">
+                    <div class="category-icon">
+                        <img src="images/All-Jewelry.jpg" alt="All Collections">
+                    </div>
+                    <h3>All</h3>
+                    <p>View Entire Gallery</p>
                 </div>
-                <h3>All</h3>
-                <p>View Entire Gallery</p>
-            </div>
-            <div class="category-card" onclick="filterProducts('Rings')">
-                <div class="category-icon">
-                    <img src="images/Rings.jpg" alt="Rings Collection">
+                <div class="category-card" onclick="filterProducts('Rings')">
+                    <div class="category-icon">
+                        <img src="images/Rings.jpg" alt="Rings Collection">
+                    </div>
+                    <h3>The Rings</h3>
+                    <p>Eternal Symbols</p>
                 </div>
-                <h3>The Rings</h3>
-                <p>Eternal Symbols</p>
-            </div>
-            <div class="category-card" onclick="filterProducts('Necklaces')">
-                <div class="category-icon">
-                    <img src="images/Necklace.jpg" alt="Necklaces Collection">
+                <div class="category-card" onclick="filterProducts('Necklaces')">
+                    <div class="category-icon">
+                        <img src="images/Necklace.jpg" alt="Necklaces Collection">
+                    </div>
+                    <h3>Necklaces</h3>
+                    <p>Grace & Grandeur</p>
                 </div>
-                <h3>Necklaces</h3>
-                <p>Grace & Grandeur</p>
-            </div>
-            <div class="category-card" onclick="filterProducts('Earrings')">
-                <div class="category-icon">
-                    <img src="images/Earrings.jpg" alt="Earrings Collection">
+                <div class="category-card" onclick="filterProducts('Earrings')">
+                    <div class="category-icon">
+                        <img src="images/Earrings.jpg" alt="Earrings Collection">
+                    </div>
+                    <h3>Earrings</h3>
+                    <p>Radiant Sparkle</p>
                 </div>
-                <h3>Earrings</h3>
-                <p>Radiant Sparkle</p>
-            </div>
-            <div class="category-card" data-category="bracelets" onclick="filterProducts('bracelets')">
-                <div class="category-icon">
-                    <img src="images/closeup-shot-female-pink-dress-wearing-beautiful-silver-bracelet-with-heart-pendant.jpg"
-                        alt="Bracelets">
+                <div class="category-card" data-category="bracelets" onclick="filterProducts('bracelets')">
+                    <div class="category-icon">
+                        <img src="images/closeup-shot-female-pink-dress-wearing-beautiful-silver-bracelet-with-heart-pendant.jpg"
+                            alt="Bracelets">
+                    </div>
+                    <h3>Bracelets</h3>
+                    <p>Bangles & Chains</p>
                 </div>
-                <h3>Bracelets</h3>
-                <p>Bangles & Chains</p>
-            </div>
-        </section>
+            </section>
 
-        <section class="products-container" id="products">
-            <h2 class="section-title">Featured Products</h2>
-            <div class="products-grid" id="productsGrid">
-                <!-- Products will be dynamically loaded here -->
-            </div>
-        </section>
+            <section class="products-container" id="products">
+                <h2 class="section-title">Featured Products</h2>
+                <div class="products-grid" id="productsGrid">
+                    <!-- Products will be dynamically loaded here -->
+                </div>
+            </section>
 
-        <section class="contact-section" id="contact">
-            <div class="contact-container" style="margin-top: 5rem;">
-                <div class="contact-info">
-                    <h2>Get in Touch</h2>
-                    <p>Experience the Luxe personalized service. Our experts are here to assist you with bespoke
-                        designs, gemstone selection, or any inquiries.</p>
+            <section class="contact-section" id="contact">
+                <div class="contact-container" style="margin-top: 5rem;">
+                    <div class="contact-info">
+                        <h2>Get in Touch</h2>
+                        <p>Experience the Luxe personalized service. Our experts are here to assist you with bespoke
+                            designs, gemstone selection, or any inquiries.</p>
 
-                    <div class="contact-detail">
-                        <i class="fas fa-phone"></i>
-                        <div>
-                            <span>Hotline</span>
-                            <p>+94 11 234 5678</p>
+                        <div class="contact-detail">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <span>Hotline</span>
+                                <p>+94 11 234 5678</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-detail">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <span>Email</span>
+                                <p>concierge@luxe-jewelry.com</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-detail">
+                            <i class="fas fa-location-dot"></i>
+                            <div>
+                                <span>Boutique</span>
+                                <p>No 12, Flower Road, Colombo 07, Sri Lanka</p>
+                            </div>
+                        </div>
+
+                        <div class="social-icons" style="margin-top: 3rem;">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                            <a href="#"><i class="fab fa-whatsapp"></i></a>
                         </div>
                     </div>
 
-                    <div class="contact-detail">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <span>Email</span>
-                            <p>concierge@luxe-jewelry.com</p>
-                        </div>
-                    </div>
-
-                    <div class="contact-detail">
-                        <i class="fas fa-location-dot"></i>
-                        <div>
-                            <span>Boutique</span>
-                            <p>No 12, Flower Road, Colombo 07, Sri Lanka</p>
-                        </div>
-                    </div>
-
-                    <div class="social-icons" style="margin-top: 3rem;">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <div class="contact-form-wrapper">
+                        <form id="contactForm" class="contact-form">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" placeholder="Your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" placeholder="Your email address" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" placeholder="Your phone number">
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" placeholder="How can we assist you today?" required></textarea>
+                            </div>
+                            <button type="submit" class="submit-btn" id="submitBtn">Send Inquiry</button>
+                        </form>
                     </div>
                 </div>
-
-                <div class="contact-form-wrapper">
-                    <form id="contactForm" class="contact-form">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" placeholder="Your full name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" placeholder="Your email address" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone</label>
-                            <input type="tel" id="phone" placeholder="Your phone number">
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" placeholder="How can we assist you today?" required></textarea>
-                        </div>
-                        <button type="submit" class="submit-btn" id="submitBtn">Send Inquiry</button>
-                    </form>
-                </div>
-            </div>
-        </section>
+            </section>
         </div> <!-- End of homeView -->
 
         <!-- Product Page View -->
@@ -242,7 +256,8 @@
             </div>
 
             <!-- Related Products Section -->
-            <div class="product-page-container related-products-section" style="display: none;" id="relatedProductsSection">
+            <div class="product-page-container related-products-section" style="display: none;"
+                id="relatedProductsSection">
                 <h2 class="section-title">You May Also Like</h2>
                 <div class="products-grid" id="relatedProductsGrid">
                     <!-- Related products will be injected here -->
@@ -296,7 +311,8 @@
             <span class="close-auth" onclick="app.ui.closeProfileModal()">&times;</span>
             <div id="profileFormContainer">
                 <h2>My Profile</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Manage your personal information and shipping details.</p>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Manage your personal
+                    information and shipping details.</p>
                 <form id="userProfileForm" onsubmit="app.ui.handleProfileUpdate(event)">
                     <div class="form-group">
                         <label for="profileName">Full Name</label>
@@ -304,7 +320,8 @@
                     </div>
                     <div class="form-group" style="margin-top: 1rem;">
                         <label for="profileEmail">Email Address (Read-only)</label>
-                        <input type="email" id="profileEmail" readonly style="background-color: #f5f5f5; color: #666; cursor: not-allowed; border-color: #ddd;">
+                        <input type="email" id="profileEmail" readonly
+                            style="background-color: #f5f5f5; color: #666; cursor: not-allowed; border-color: #ddd;">
                     </div>
                     <div class="form-group" style="margin-top: 1rem;">
                         <label for="profilePhone">Mobile Phone</label>
@@ -312,10 +329,12 @@
                     </div>
                     <div class="form-group" style="margin-top: 1rem;">
                         <label for="profileAddress">Shipping Address</label>
-                        <textarea id="profileAddress" rows="3" placeholder="Enter your full shipping address..." style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-bottom: 2px solid var(--primary-color); background: rgba(255, 255, 255, 0.9); font-family: 'Inter', sans-serif; outline: none;"></textarea>
+                        <textarea id="profileAddress" rows="3" placeholder="Enter your full shipping address..."
+                            style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-bottom: 2px solid var(--primary-color); background: rgba(255, 255, 255, 0.9); font-family: 'Inter', sans-serif; outline: none;"></textarea>
                     </div>
                     <div id="profileMessage" style="font-size: 0.85rem; margin-top: 1rem; font-weight: bold;"></div>
-                    <button type="submit" class="submit-btn" style="width: 100%; margin-top: 2rem;" id="profileSubmitBtn">Save Changes</button>
+                    <button type="submit" class="submit-btn" style="width: 100%; margin-top: 2rem;"
+                        id="profileSubmitBtn">Save Changes</button>
                 </form>
             </div>
         </div>

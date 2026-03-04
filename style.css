@@ -37,7 +37,7 @@ header {
     background: rgba(255, 255, 255, 1);
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
     position: fixed;
     top: 0;
@@ -58,7 +58,8 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 5%;
-    max-width: 1200px; /* Shortened the length of the navbar */
+    max-width: 1200px;
+    /* Shortened the length of the navbar */
     margin: 0 auto;
     position: relative;
 }
@@ -69,9 +70,9 @@ nav {
     color: var(--primary-color);
     letter-spacing: 1px;
     transition: var(--transition-smooth);
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
+    flex: 0 0 auto;
+    text-align: center;
     overflow: hidden;
 }
 
@@ -87,7 +88,7 @@ header.scrolled .logo {
     left: -100%;
     width: 50%;
     height: 100%;
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.8), transparent);
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8), transparent);
     transform: skewX(-20deg);
     transition: 0.5s;
 }
@@ -102,6 +103,16 @@ header.scrolled .logo {
     gap: 3rem;
     margin: 0;
     padding: 0;
+    flex: 1;
+    justify-content: flex-start;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex: 1;
+    justify-content: flex-end;
 }
 
 .nav-links li {
@@ -162,7 +173,8 @@ header.scrolled .logo {
     transform: scaleY(1);
 }
 
-.cart-icon, .auth-icon {
+.cart-icon,
+.auth-icon {
     position: relative;
     cursor: pointer;
     font-size: 1.4rem;
@@ -965,9 +977,38 @@ footer {
     }
 }
 
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 2.5rem;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    opacity: 0.8;
+    transition: var(--transition-smooth);
+}
+
+.footer-links a:hover {
+    color: var(--accent-color);
+    opacity: 1;
+}
+
+.footer-social-bottom {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
 .footer-social-bottom a {
     color: white;
-    font-size: 1rem;
+    font-size: 1.2rem;
     opacity: 0.7;
     transition: var(--transition-smooth);
 }
