@@ -49,7 +49,7 @@
                     <div class="form-grid">
                         <div class="form-group image-upload-group">
                             <label for="productImage">Product Image</label>
-                            <input type="file" id="productImage" accept="image/*" required>
+                            <input type="file" id="productImage" accept="image/*">
                             <div id="imagePreview" class="image-preview">
                                 <span>+ Select Image</span>
                             </div>
@@ -83,9 +83,14 @@
                         </div>
                     </div>
 
-                    <button type="submit" id="submitProductBtn" class="admin-btn primary">
-                        <i class="fas fa-plus"></i> Add Product
-                    </button>
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="submit" id="submitProductBtn" class="admin-btn primary">
+                            <i class="fas fa-plus"></i> Add Product
+                        </button>
+                        <button type="button" id="cancelEditBtn" class="admin-btn outline" style="display: none;">
+                            Cancel
+                        </button>
+                    </div>
                     <div id="uploadStatus" class="status-msg"></div>
                 </form>
             </section>
