@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <div class="cart-icon" onclick="toggleCart()">
-                    🛒
+                    <i class="fas fa-shopping-bag"></i>
                     <div class="cart-count" id="cartCount">0</div>
                 </div>
             </div>
@@ -139,28 +139,28 @@
             <section class="categories" id="collections">
                 <div class="category-card active" onclick="filterProducts('all')">
                     <div class="category-icon">
-                        <img src="images/All-Jewelry.jpg" alt="All Collections">
+                        <img src="images/All-Jewelry.jpg" alt="All Collections" loading="lazy">
                     </div>
                     <h3>All</h3>
                     <p>View Entire Gallery</p>
                 </div>
                 <div class="category-card" onclick="filterProducts('Rings')">
                     <div class="category-icon">
-                        <img src="images/Rings.jpg" alt="Rings Collection">
+                        <img src="images/Rings.jpg" alt="Rings Collection" loading="lazy">
                     </div>
                     <h3>The Rings</h3>
                     <p>Eternal Symbols</p>
                 </div>
                 <div class="category-card" onclick="filterProducts('Necklaces')">
                     <div class="category-icon">
-                        <img src="images/Necklace.jpg" alt="Necklaces Collection">
+                        <img src="images/Necklace.jpg" alt="Necklaces Collection" loading="lazy">
                     </div>
                     <h3>Necklaces</h3>
                     <p>Grace & Grandeur</p>
                 </div>
                 <div class="category-card" onclick="filterProducts('Earrings')">
                     <div class="category-icon">
-                        <img src="images/Earrings.jpg" alt="Earrings Collection">
+                        <img src="images/Earrings.jpg" alt="Earrings Collection" loading="lazy">
                     </div>
                     <h3>Earrings</h3>
                     <p>Radiant Sparkle</p>
@@ -168,7 +168,7 @@
                 <div class="category-card" data-category="bracelets" onclick="filterProducts('bracelets')">
                     <div class="category-icon">
                         <img src="images/closeup-shot-female-pink-dress-wearing-beautiful-silver-bracelet-with-heart-pendant.jpg"
-                            alt="Bracelets">
+                            alt="Bracelets" loading="lazy">
                     </div>
                     <h3>Bracelets</h3>
                     <p>Bangles & Chains</p>
@@ -277,7 +277,9 @@
         </div>
         <div class="cart-total">
             <div class="total-amount" id="totalAmount">$0.00</div>
-            <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+            <button class="checkout-btn" onclick="window.location.href='checkout.html'">
+                <i class="fas fa-lock" style="margin-right:0.5rem;"></i>Proceed to Checkout
+            </button>
         </div>
     </div>
 
@@ -307,8 +309,20 @@
 
     <!-- Profile Modal -->
     <div id="profileModal" class="auth-modal" style="display: none; z-index: 2000;">
-        <div class="auth-modal-content" style="max-width: 500px;">
+        <div class="auth-modal-content" style="max-width: 540px;">
             <span class="close-auth" onclick="app.ui.closeProfileModal()">&times;</span>
+
+            <!-- Tabs -->
+            <div style="display:flex; gap:0; border-bottom: 2px solid #f0f0f0; margin-bottom:1.5rem;">
+                <button id="tabProfileBtn" onclick="switchProfileTab('profile')" style="flex:1; padding:0.8rem; border:none; background:none; font-family:'Inter',sans-serif; font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; cursor:pointer; color:var(--primary-color); border-bottom:2px solid var(--primary-color); margin-bottom:-2px;">
+                    <i class="fas fa-user-circle" style="margin-right:0.4rem;"></i> My Profile
+                </button>
+                <button id="tabOrdersBtn" onclick="switchProfileTab('orders')" style="flex:1; padding:0.8rem; border:none; background:none; font-family:'Inter',sans-serif; font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; cursor:pointer; color:#999; border-bottom:2px solid transparent; margin-bottom:-2px;">
+                    <i class="fas fa-receipt" style="margin-right:0.4rem;"></i> Order History
+                </button>
+            </div>
+
+            <!-- Profile Tab -->
             <div id="profileFormContainer">
                 <h2>My Profile</h2>
                 <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Manage your personal
@@ -337,6 +351,19 @@
                         id="profileSubmitBtn">Save Changes</button>
                 </form>
             </div>
+
+            <!-- Order History Tab -->
+            <div id="orderHistoryContainer" style="display:none;">
+                <h2>Order History</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Your past purchases from Luxe Jewelry.</p>
+                <div id="orderHistoryList" style="display:flex; flex-direction:column; gap:1rem;">
+                    <div style="text-align:center; padding:2rem; color:#999;">
+                        <i class="fas fa-spinner fa-spin" style="font-size:1.5rem; margin-bottom:0.5rem; display:block;"></i>
+                        Loading orders...
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -410,7 +437,6 @@
     <script type="module" src="components/ProductPage.js"></script>
 
     <script>
-        // Legacy functions for backward compatibility with inline onclick handlers
         function addToCart(productId) {
             app.addToCart(productId, event);
         }
@@ -433,6 +459,78 @@
 
         function checkout() {
             app.checkout();
+        }
+
+        // ---- Profile Modal Tab Switching ----
+        function switchProfileTab(tab) {
+            const profileTab = document.getElementById('profileFormContainer');
+            const ordersTab  = document.getElementById('orderHistoryContainer');
+            const profileBtn = document.getElementById('tabProfileBtn');
+            const ordersBtn  = document.getElementById('tabOrdersBtn');
+
+            if (tab === 'profile') {
+                profileTab.style.display = 'block';
+                ordersTab.style.display  = 'none';
+                profileBtn.style.color = 'var(--primary-color)';
+                profileBtn.style.borderBottom = '2px solid var(--primary-color)';
+                ordersBtn.style.color = '#999';
+                ordersBtn.style.borderBottom = '2px solid transparent';
+            } else {
+                profileTab.style.display = 'none';
+                ordersTab.style.display  = 'block';
+                profileBtn.style.color = '#999';
+                profileBtn.style.borderBottom = '2px solid transparent';
+                ordersBtn.style.color = 'var(--primary-color)';
+                ordersBtn.style.borderBottom = '2px solid var(--primary-color)';
+                loadOrderHistory();
+            }
+        }
+
+        async function loadOrderHistory() {
+            const listEl = document.getElementById('orderHistoryList');
+            listEl.innerHTML = '<div style="text-align:center;padding:2rem;color:#999;"><i class="fas fa-spinner fa-spin" style="font-size:1.5rem;margin-bottom:0.5rem;display:block;"></i>Loading orders...</div>';
+
+            if (!app.auth || !app.auth.currentUser) {
+                listEl.innerHTML = '<div style="text-align:center;padding:2rem;color:#999;"><i class="fas fa-user-slash" style="font-size:2rem;margin-bottom:1rem;display:block;"></i>Please sign in to view your order history.</div>';
+                return;
+            }
+
+            try {
+                const { collection, query, orderBy, getDocs } = await import('https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js');
+                const { db } = await import('./components/firebase-config.js');
+                const uid = app.auth.currentUser.uid;
+                const q = query(collection(db, 'users', uid, 'orders'), orderBy('createdAt', 'desc'));
+                const snap = await getDocs(q);
+
+                if (snap.empty) {
+                    listEl.innerHTML = '<div style="text-align:center;padding:2rem;color:#999;"><i class="fas fa-box-open" style="font-size:2rem;margin-bottom:1rem;display:block;color:#e0e0e0;"></i>No orders yet.<br><a href="#products" onclick="app.ui.closeProfileModal()" style="color:var(--accent-color);text-decoration:none;font-weight:600;font-size:0.85rem;">Start Shopping &rarr;</a></div>';
+                    return;
+                }
+
+                listEl.innerHTML = '';
+                snap.forEach(docSnap => {
+                    const order = docSnap.data();
+                    const date = order.date ? new Date(order.date).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' }) : '—';
+                    const itemNames = (order.items || []).map(i => i.name).join(', ');
+                    const card = document.createElement('div');
+                    card.style.cssText = 'border:1px solid #e5e0d8;border-radius:10px;padding:1rem 1.2rem;transition:all 0.3s;';
+                    card.onmouseenter = () => card.style.borderColor = '#d4af37';
+                    card.onmouseleave = () => card.style.borderColor = '#e5e0d8';
+                    card.innerHTML = `
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+                            <span style="font-family:monospace;font-weight:700;font-size:0.9rem;letter-spacing:2px;">#${order.orderNumber}</span>
+                            <span style="display:inline-block;padding:0.2rem 0.7rem;background:#d1fae5;color:#065f46;border-radius:20px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Confirmed</span>
+                        </div>
+                        <div style="font-size:0.75rem;color:#777;margin-bottom:0.3rem;">${date} &middot; ${order.paymentMethod || '—'}</div>
+                        <div style="font-size:0.8rem;color:#555;margin-bottom:0.4rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${itemNames}</div>
+                        <div style="font-size:0.95rem;font-weight:700;color:#d4af37;">$${(order.total || 0).toFixed(2)}</div>
+                    `;
+                    listEl.appendChild(card);
+                });
+            } catch (e) {
+                listEl.innerHTML = '<div style="text-align:center;padding:2rem;color:#c00;"><i class="fas fa-exclamation-circle"></i> Could not load orders.</div>';
+                console.error('Order history error:', e);
+            }
         }
     </script>
 </body>
