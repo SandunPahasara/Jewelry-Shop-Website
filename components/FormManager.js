@@ -3,6 +3,9 @@ class FormManager {
     constructor() {
         this.contactFormElement = null;
         this.emailjsInitialized = false;
+        this.emailjsPublicKey = 'TrtI9U_9dFF7-Npax';
+        this.emailjsServiceId = 'service_d8w9z0v';
+        this.emailjsTemplateId = 'template_contact_form';
     }
 
     init(contactFormEl) {
@@ -12,10 +15,11 @@ class FormManager {
     }
 
     initEmailJS() {
-        // Search for EmailJS script
-        if (typeof emailjs !== 'undefined') {
+        if (typeof emailjs === 'undefined') return;
+
+        if (!this.emailjsInitialized) {
+            emailjs.init(this.emailjsPublicKey);
             this.emailjsInitialized = true;
-            // Note: Users need to call emailjs.init("YOUR_PUBLIC_KEY") in their HTML or here
         }
     }
 
@@ -39,15 +43,17 @@ class FormManager {
 
         try {
             if (this.emailjsInitialized) {
-                // Example EmailJS call:
-                // await emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", data);
-                
-                // For demonstration, we'll keep the alert but explain it's "sent"
-                console.log("EmailJS would send:", data);
+                await emailjs.send(this.emailjsServiceId, this.emailjsTemplateId, {
+                    from_name: data.name,
+                    from_email: data.email,
+                    phone: data.phone || 'Not provided',
+                    message: data.message,
+                    submitted_at: new Date().toLocaleString()
+                });
+
                 alert(`Thank you for your inquiry, ${data.name}!\n\nYour message has been sent successfully via EmailJS. We'll get back to you within 24 hours at ${data.email}.`);
             } else {
-                // Fallback for when EmailJS is not yet configured with keys
-                alert(`Thank you for your inquiry, ${data.name}!\n\n(Note: EmailJS not yet configured with keys). We'll get back to you within 24 hours at ${data.email}.`);
+                alert('Email service is not available right now. Please refresh and try again.');
             }
             
             // Reset form
