@@ -10,7 +10,12 @@
     <link rel="stylesheet" href="checkout.css">
     <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script>emailjs.init('TrtI9U_9dFF7-Npax');</script>
+    <script>
+        const EMAILJS_PUBLIC_KEY = 'TrtI9U_9dFF7-Npax';
+        const EMAILJS_SERVICE_ID = 'service_d8w9z0v';
+        const EMAILJS_ORDER_TEMPLATE_ID = 'template_usjb78n';
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+    </script>
 </head>
 <body>
 
@@ -375,7 +380,7 @@
                 window.saveOrderToFirestore(orderData);
             }
 
-            setTimeout(() => {
+            setTimeout(async () => {
                 // Clear cart
                 localStorage.removeItem('jewelry_cart');
 
@@ -415,19 +420,27 @@
                 const pmLabelsEmail = { card: 'Credit Card', paypal: 'PayPal', cash: 'Cash on Delivery' };
                 const itemsSummary = cart.map(i => `${i.name} × ${i.quantity} — $${(i.price * i.quantity).toFixed(2)}`).join('\n');
 
-                emailjs.send('service_d8w9z0v', 'template_usjb78n', {
-                    to_email:       email,
-                    customer_name:  name,
-                    customer_phone: phone,
-                    order_number:   orderNum,
-                    order_date:     orderDate,
-                    payment_method: pmLabelsEmail[selectedPayment] || selectedPayment,
-                    items_summary:  itemsSummary,
-                    total:          '$' + subtotal.toFixed(2),
-                    address:        addr + ', ' + city + (postal ? ' ' + postal : '')
-                })
-                .then(() => console.log('✅ Confirmation email sent to', email))
-                .catch(err => console.warn('⚠️ Email send failed:', err));
+                try {
+                    const orderEmailParams = {
+                        to_email: email,
+                        email: email,
+                        customer_name: name,
+                        name: name,
+                        customer_phone: phone,
+                        order_number: orderNum,
+                        order_date: orderDate,
+                        payment_method: pmLabelsEmail[selectedPayment] || selectedPayment,
+                        items_summary: itemsSummary,
+                        total: '$' + subtotal.toFixed(2),
+                        address: addr + ', ' + city + (postal ? ' ' + postal : '')
+                    };
+
+                    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ORDER_TEMPLATE_ID, orderEmailParams);
+                    console.log('Confirmation email sent to', email);
+                } catch (err) {
+                    console.warn('Order confirmation email failed:', err);
+                    alert('Order placed successfully, but confirmation email could not be sent. Please verify your template variables in EmailJS.');
+                }
 
                 // Show receipt
                 document.getElementById('successOverlay').classList.add('show');
