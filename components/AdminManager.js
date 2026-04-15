@@ -28,14 +28,24 @@ let editingProductImageUrl = null;
 // Check Auth State
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        // User is signed in
+        // User is signed in — switch to dashboard and scroll to top
         loginView.classList.remove('active');
         dashboardView.classList.add('active');
-        loadProducts(); // Load products table
+        requestAnimationFrame(() => {
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        });
+        loadProducts();
     } else {
-        // User is signed out
+        // User is signed out — switch to login and scroll to top
         dashboardView.classList.remove('active');
         loginView.classList.add('active');
+        requestAnimationFrame(() => {
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        });
     }
 });
 
@@ -45,20 +55,19 @@ loginForm.addEventListener('submit', async (e) => {
     const email = document.getElementById('adminEmail').value;
     const password = document.getElementById('adminPassword').value;
     const errorMsg = document.getElementById('loginError');
+    const submitBtn = loginForm.querySelector('button[type="submit"]');
 
-    errorMsg.textContent = 'Processing...';
+    errorMsg.textContent = '';
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
 
     try {
         await signInWithEmailAndPassword(auth, email, password);
-        errorMsg.textContent = '';
-
-        // Short delay to ensure the UI updates to show the dashboard before the alert pops up
-        setTimeout(() => {
-            alert("Successfully logged in!\n\nWelcome to your Admin Dashboard. Scroll down to manage your products.");
-        }, 300);
-
+        // onAuthStateChanged will handle the UI switch & scroll
     } catch (error) {
-        errorMsg.textContent = 'Invalid email or password.';
+        errorMsg.textContent = 'Invalid email or password. Please try again.';
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
         console.error("Auth error:", error);
     }
 });
