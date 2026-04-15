@@ -35,9 +35,7 @@ h3,
 /* Header */
 header {
     background: rgba(255, 255, 255, 1);
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
     transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
     position: fixed;
     top: 0;
@@ -49,38 +47,37 @@ header.scrolled {
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
-    padding-top: 0;
-    padding-bottom: 0;
 }
 
 nav {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 5%;
-    max-width: 1200px;
-    /* Shortened the length of the navbar */
-    margin: 0 auto;
+    padding: 0.75rem 4%;
+    width: 100%;
     position: relative;
 }
 
 .logo {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 700;
     color: var(--primary-color);
     letter-spacing: 1px;
     transition: var(--transition-smooth);
-    position: relative;
-    flex: 0 0 auto;
-    text-align: center;
     overflow: hidden;
+    white-space: nowrap;
+    text-align: center;
+    /* Centered using absolute positioning relative to nav */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: auto;
 }
 
 header.scrolled .logo {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
 }
 
-/* Optional logo hover shine */
+/* Logo hover shine */
 .logo::before {
     content: '';
     position: absolute;
@@ -97,22 +94,26 @@ header.scrolled .logo {
     left: 150%;
 }
 
+/* Left nav links */
 .nav-links {
     display: flex;
     list-style: none;
-    gap: 3rem;
+    gap: 2rem;
     margin: 0;
     padding: 0;
-    flex: 1;
-    justify-content: flex-start;
+    align-items: center;
+    /* Takes up half the nav, pinned left */
+    flex: 0 0 auto;
 }
 
+/* Right actions (profile, cart) */
 .nav-actions {
     display: flex;
     align-items: center;
-    gap: 2rem;
-    flex: 1;
-    justify-content: flex-end;
+    gap: 1.2rem;
+    /* Pushed to the far right using margin-left: auto */
+    margin-left: auto;
+    white-space: nowrap;
 }
 
 .nav-links li {
@@ -202,9 +203,10 @@ header.scrolled .logo {
     font-family: 'Inter', sans-serif;
 }
 
-/* Main Content */
+/* Main Content - no offset because hero is fullscreen */
 main {
-    margin-top: 80px;
+    margin-top: 0;
+    padding-top: 0;
 }
 
 /* Hero Section */
@@ -457,7 +459,7 @@ main {
 .discovery-image {
     position: relative;
     overflow: hidden;
-    background: url('images/gems-bg.jpg') center/cover;
+    background: url('images/All-Jewelry.jpg') center/cover;
 }
 
 .discovery-image .section-video {
@@ -754,19 +756,32 @@ footer {
     color: white;
     text-align: center;
     padding: 6rem 5%;
-    backdrop-filter: blur(10px);
 }
 
 .footer-content {
     max-width: 1400px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* Override absolute positioning from header .logo for footer */
+footer .logo {
+    position: static;
+    transform: none;
+    color: white;
+    font-size: 2rem;
+    margin-bottom: 0;
+    pointer-events: none;
 }
 
 .footer-links {
     display: flex;
     justify-content: center;
     gap: 2rem;
-    margin-bottom: 2rem;
+    margin: 0;
 }
 
 .footer-links a {
@@ -780,6 +795,22 @@ footer {
 
 .footer-links a:hover {
     color: #d4af37;
+}
+
+.footer-social-bottom {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.footer-social-bottom a {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.footer-social-bottom a:hover {
+    color: var(--accent-color);
 }
 
 /* Contact Section Redesign */
