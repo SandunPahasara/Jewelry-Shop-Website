@@ -98,6 +98,9 @@ class UIManager {
         card.className = 'product-card';
         card.setAttribute('data-category', product.category);
 
+        const priceValue = Number(product.price);
+        const displayPrice = Number.isFinite(priceValue) ? priceValue : 0;
+
         const imageHtml = product.image
             ? `<img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">`
             : `<span style="font-size: 5rem; opacity: 0.1;">${product.icon}</span>`;
@@ -109,7 +112,7 @@ class UIManager {
             <div class="product-info">
                 <h3 class="product-name">${product.name}</h3>
                 <p class="product-description">${product.description}</p>
-                <p class="product-price">$${product.price.toLocaleString()}</p>
+                <p class="product-price">$${displayPrice.toLocaleString()}</p>
                 <a href="?product=${product.id}" class="add-to-cart" style="text-decoration: none; display: flex; justify-content: center; align-items: center; box-sizing: border-box;">
                     Explore & Purchase
                 </a>
@@ -117,6 +120,11 @@ class UIManager {
         `;
 
         return card;
+    }
+
+    displayLoadError(message) {
+        if (!this.productsGridElement) return;
+        this.productsGridElement.innerHTML = `<div class="loading">Unable to load featured products. ${message}</div>`;
     }
 
     filterProducts(category) {
