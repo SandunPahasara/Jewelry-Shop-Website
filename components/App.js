@@ -34,10 +34,17 @@ class App {
         this.formManager.init(contactFormEl);
 
         // Await the loading of products from Firebase
-        await this.productManager.loadProducts();
+        const loadResult = await this.productManager.loadProducts();
 
-        // Display initial products
-        this.ui.displayProducts();
+        if (loadResult && loadResult.success === false) {
+            const errorMessage = loadResult.error && loadResult.error.message
+                ? loadResult.error.message
+                : 'Failed to load products from the database.';
+            this.ui.displayLoadError(errorMessage);
+        } else {
+            // Display initial products
+            this.ui.displayProducts();
+        }
 
         // Initialize interactivity
         this.initializeInteractivity();
