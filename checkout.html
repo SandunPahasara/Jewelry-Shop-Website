@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Luxe Jewelry</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="checkout.css">
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>emailjs.init('TrtI9U_9dFF7-Npax');</script>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="checkout-header">
+        <a href="Homepage.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Shop</span>
+        </a>
+        <a href="Homepage.html" class="logo">Luxe Jewelry</a>
+        <div class="secure-badge">
+            <i class="fas fa-lock"></i>
+            <span>Secure Checkout</span>
+        </div>
+    </header>
+
+    <!-- Steps Indicator -->
+    <div class="steps-bar">
+        <div class="steps">
+            <div class="step active" id="step1">
+                <div class="step-circle">1</div>
+                <div class="step-label">Details</div>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-circle">2</div>
+                <div class="step-label">Payment</div>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-circle"><i class="fas fa-check"></i></div>
+                <div class="step-label">Confirm</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="checkout-main">
+
+        <!-- LEFT COLUMN -->
+        <div class="checkout-left">
+
+            <!-- Cart is empty fallback -->
+            <div id="emptyCartMessage" class="checkout-card empty-cart" style="display:none;">
+                <i class="fas fa-shopping-bag"></i>
+                <p>Your cart is empty.</p>
+                <a href="Homepage.html">Continue Shopping</a>
+            </div>
+
+            <!-- Shipping Details -->
+            <div class="checkout-card" id="shippingCard">
+                <h2><i class="fas fa-map-marker-alt"></i> Shipping Details</h2>
+
+                <div id="profileLoadedNote" style="display:none; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:0.8rem 1rem; margin-bottom:1.5rem; font-size:0.82rem; color:#166534; display:flex; align-items:center; gap:0.5rem;">
+                    <i class="fas fa-check-circle"></i>
+                    <span>We loaded your saved profile. You can edit if needed.</span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="shipName" placeholder="Jane Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" id="shipPhone" placeholder="+94 77 123 4567" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address *</label>
+                    <input type="email" id="shipEmail" placeholder="you@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Shipping Address *</label>
+                    <textarea id="shipAddress" placeholder="No. 12, Flower Road, Colombo 07, Sri Lanka" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>City *</label>
+                        <input type="text" id="shipCity" placeholder="Colombo" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Postal Code</label>
+                        <input type="text" id="shipPostal" placeholder="00700">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="checkout-card" id="paymentCard">
+                <h2><i class="fas fa-credit-card"></i> Payment Method</h2>
+
+                <div class="payment-methods">
+                    <!-- Card -->
+                    <div class="payment-card" id="pmCard" onclick="selectPayment('card')">
+                        <div class="check-icon"><i class="fas fa-check"></i></div>
+                        <div class="card-logos">
+                            <svg height="24" viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="32" rx="4" fill="#1A1F71"/><text x="5" y="22" fill="white" font-size="14" font-weight="bold" font-family="Arial">VISA</text></svg>
+                            <svg height="24" viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="32" rx="4" fill="#252525"/><circle cx="18" cy="16" r="10" fill="#EB001B"/><circle cx="30" cy="16" r="10" fill="#F79E1B"/><path d="M24 8.68a10 10 0 010 14.64A10 10 0 0124 8.68z" fill="#FF5F00"/></svg>
+                        </div>
+                        <div class="payment-label">Credit Card</div>
+                    </div>
+
+                    <!-- PayPal -->
+                    <div class="payment-card" id="pmPaypal" onclick="selectPayment('paypal')">
+                        <div class="check-icon"><i class="fas fa-check"></i></div>
+                        <div class="payment-icons" style="color:#003087;">
+                            <i class="fab fa-paypal"></i>
+                        </div>
+                        <div class="payment-label">PayPal</div>
+                    </div>
+
+                    <!-- Cash -->
+                    <div class="payment-card" id="pmCash" onclick="selectPayment('cash')">
+                        <div class="check-icon"><i class="fas fa-check"></i></div>
+                        <div class="payment-icons" style="color:#28a745;">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="payment-label">Cash on Delivery</div>
+                    </div>
+                </div>
+
+                <!-- Credit Card Form -->
+                <div class="payment-form" id="cardForm">
+                    <div class="form-group">
+                        <label>Card Number</label>
+                        <input type="text" id="cardNumber" placeholder="1234  5678  9012  3456" maxlength="19" oninput="formatCardNumber(this)">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Expiry Date</label>
+                            <input type="text" id="cardExpiry" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)">
+                        </div>
+                        <div class="form-group">
+                            <label>CVV</label>
+                            <input type="password" id="cardCvv" placeholder="•••" maxlength="4">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Name on Card</label>
+                        <input type="text" id="cardName" placeholder="Jane Doe">
+                    </div>
+                </div>
+
+                <!-- PayPal Form -->
+                <div class="payment-form" id="paypalForm">
+                    <div class="form-group">
+                        <label>PayPal Email</label>
+                        <input type="email" id="paypalEmail" placeholder="you@paypal.com">
+                    </div>
+                    <p style="font-size:0.78rem;color:#777;margin-top:0.5rem;"><i class="fas fa-info-circle"></i> You'll be directed to PayPal to complete payment.</p>
+                </div>
+
+                <!-- Cash Info -->
+                <div class="payment-form" id="cashForm">
+                    <p style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:1rem;font-size:0.85rem;color:#166534;">
+                        <i class="fas fa-info-circle"></i>
+                        &nbsp;You'll pay in cash when your order arrives. Our delivery team will contact you before delivery.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: Order Summary -->
+        <div class="checkout-right">
+            <div class="checkout-card order-summary">
+                <h2><i class="fas fa-receipt"></i> Order Summary</h2>
+
+                <div class="order-items" id="orderItemsList">
+                    <!-- Populated by JS -->
+                </div>
+
+                <div class="totals">
+                    <div class="total-row">
+                        <span>Subtotal</span>
+                        <span id="summarySubtotal">$0.00</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Shipping</span>
+                        <span style="color:#28a745;">Free</span>
+                    </div>
+                    <div class="total-row grand">
+                        <span>Total</span>
+                        <span id="summaryTotal">$0.00</span>
+                    </div>
+                </div>
+
+                <button class="place-order-btn" id="placeOrderBtn" onclick="placeOrder()">
+                    <i class="fas fa-lock"></i>
+                    <span>Place Order</span>
+                </button>
+
+                <div class="trust-badges">
+                    <div class="trust-badge"><i class="fas fa-shield-alt"></i> Secure</div>
+                    <div class="trust-badge"><i class="fas fa-sync-alt"></i> Easy Returns</div>
+                    <div class="trust-badge"><i class="fas fa-truck"></i> Free Delivery</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Success Modal / E-Receipt -->
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-modal receipt-modal">
+            <!-- Ribbon -->
+            <div class="receipt-ribbon">
+                <div class="success-icon"><i class="fas fa-check"></i></div>
+                <h2>Order Confirmed!</h2>
+                <p>Thank you for shopping with Luxe Jewelry.</p>
+            </div>
+
+            <!-- Receipt Body -->
+            <div class="receipt-body" id="receiptBody">
+                <div class="receipt-header">
+                    <div class="receipt-logo">Luxe Jewelry</div>
+                    <div class="receipt-meta">
+                        <div class="receipt-meta-row"><span>Order No.</span><strong id="rcptOrderNo">#LJ-000000</strong></div>
+                        <div class="receipt-meta-row"><span>Date</span><strong id="rcptDate">—</strong></div>
+                        <div class="receipt-meta-row"><span>Payment</span><strong id="rcptPayment">—</strong></div>
+                        <div class="receipt-meta-row"><span>Status</span><strong style="color:#28a745;">Confirmed</strong></div>
+                    </div>
+                </div>
+
+                <div class="receipt-divider"></div>
+
+                <!-- Ship To -->
+                <div class="receipt-section">
+                    <div class="receipt-section-title"><i class="fas fa-map-marker-alt"></i> Ship To</div>
+                    <div id="rcptShipTo" class="receipt-address"></div>
+                </div>
+
+                <div class="receipt-divider"></div>
+
+                <!-- Items -->
+                <div class="receipt-section">
+                    <div class="receipt-section-title"><i class="fas fa-box"></i> Items Ordered</div>
+                    <div id="rcptItems"></div>
+                </div>
+
+                <div class="receipt-divider"></div>
+
+                <!-- Totals -->
+                <div class="receipt-totals">
+                    <div class="receipt-total-row"><span>Subtotal</span><span id="rcptSubtotal">$0.00</span></div>
+                    <div class="receipt-total-row"><span>Shipping</span><span style="color:#28a745;">Free</span></div>
+                    <div class="receipt-total-row grand"><span>Total Paid</span><span id="rcptTotal">$0.00</span></div>
+                </div>
+
+                <div class="receipt-divider"></div>
+                <p style="text-align:center;font-size:0.75rem;color:#999;padding:0.5rem;">Estimated delivery: <strong>3–5 business days</strong> · Luxe Jewelry, Colombo, Sri Lanka</p>
+            </div>
+
+            <!-- Actions -->
+            <div class="receipt-actions">
+                <button class="receipt-btn print-btn" id="downloadPdfBtn" onclick="downloadReceiptPDF()">
+                    <i class="fas fa-file-pdf"></i> Download PDF
+                </button>
+                <button class="receipt-btn continue-btn" onclick="continueShopping()">
+                    <i class="fas fa-arrow-left"></i> Continue Shopping
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF Generation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- Firebase & Checkout Logic -->
+    <script type="module" src="components/firebase-config.js"></script>
+    <script type="module" src="checkout.js"></script>
+
+    <!-- Inline helpers (non-module) -->
+    <script>
+        let selectedPayment = null;
+
+        function selectPayment(method) {
+            selectedPayment = method;
+            ['card','paypal','cash'].forEach(m => {
+                document.getElementById('pm' + m.charAt(0).toUpperCase() + m.slice(1)).classList.remove('selected');
+                document.getElementById(m + 'Form').classList.remove('show');
+            });
+            document.getElementById('pm' + method.charAt(0).toUpperCase() + method.slice(1)).classList.add('selected');
+            document.getElementById(method + 'Form').classList.add('show');
+
+            // Advance step indicator
+            document.getElementById('step1').classList.add('done');
+            document.getElementById('step2').classList.add('active');
+        }
+
+        function formatCardNumber(input) {
+            let value = input.value.replace(/\D/g, '').substring(0, 16);
+            input.value = value.replace(/(.{4})/g, '$1  ').trim();
+        }
+
+        function formatExpiry(input) {
+            let value = input.value.replace(/\D/g, '').substring(0, 4);
+            if (value.length >= 2) value = value.slice(0,2) + ' / ' + value.slice(2);
+            input.value = value;
+        }
+
+        function placeOrder() {
+            const name  = document.getElementById('shipName').value.trim();
+            const phone = document.getElementById('shipPhone').value.trim();
+            const email = document.getElementById('shipEmail').value.trim();
+            const addr  = document.getElementById('shipAddress').value.trim();
+            const city  = document.getElementById('shipCity').value.trim();
+            const postal = document.getElementById('shipPostal').value.trim();
+
+            if (!name || !phone || !email || !addr || !city) {
+                alert('Please fill in all required shipping fields.');
+                return;
+            }
+
+            if (!selectedPayment) {
+                alert('Please select a payment method.');
+                return;
+            }
+
+            if (selectedPayment === 'card') {
+                const cardNum = document.getElementById('cardNumber').value.replace(/\s/g,'');
+                const expiry  = document.getElementById('cardExpiry').value;
+                const cvv     = document.getElementById('cardCvv').value;
+                if (cardNum.length < 16 || !expiry || cvv.length < 3) {
+                    alert('Please enter valid card details.');
+                    return;
+                }
+            }
+
+            if (selectedPayment === 'paypal') {
+                const ppEmail = document.getElementById('paypalEmail').value.trim();
+                if (!ppEmail) { alert('Please enter your PayPal email.'); return; }
+            }
+
+            // Show loading
+            const btn = document.getElementById('placeOrderBtn');
+            btn.classList.add('loading');
+            btn.innerHTML = '<div class="spinner"></div><span style="position:relative;z-index:1;margin-left:0.5rem;">Processing...</span>';
+
+            const cart = JSON.parse(localStorage.getItem('jewelry_cart') || '[]');
+            const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+            const orderNum = 'LJ-' + Math.random().toString(36).substring(2,8).toUpperCase();
+            const orderDate = new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+
+            const orderData = {
+                orderNumber: orderNum,
+                date: new Date().toISOString(),
+                status: 'confirmed',
+                paymentMethod: selectedPayment,
+                shipping: { name, phone, email, address: addr, city, postal },
+                items: cart,
+                subtotal,
+                total: subtotal
+            };
+
+            // Delegate Firestore save to module (checkout.js)
+            if (window.saveOrderToFirestore) {
+                window.saveOrderToFirestore(orderData);
+            }
+
+            setTimeout(() => {
+                // Clear cart
+                localStorage.removeItem('jewelry_cart');
+
+                // Populate e-receipt
+                document.getElementById('rcptOrderNo').textContent = '#' + orderNum;
+                document.getElementById('rcptDate').textContent = orderDate;
+                const pmLabels = { card: 'Credit Card', paypal: 'PayPal', cash: 'Cash on Delivery' };
+                document.getElementById('rcptPayment').textContent = pmLabels[selectedPayment] || selectedPayment;
+                document.getElementById('rcptShipTo').innerHTML = `<strong>${name}</strong><br>${phone}<br>${addr}, ${city}${postal ? ' ' + postal : ''}`;
+                document.getElementById('rcptSubtotal').textContent = '$' + subtotal.toFixed(2);
+                document.getElementById('rcptTotal').textContent = '$' + subtotal.toFixed(2);
+
+                // Render items in receipt
+                const rcptItems = document.getElementById('rcptItems');
+                rcptItems.innerHTML = '';
+                cart.forEach(item => {
+                    const row = document.createElement('div');
+                    row.className = 'receipt-item';
+                    row.innerHTML = `
+                        <div class="receipt-item-img">
+                            ${item.image ? `<img src="${item.image}" alt="${item.name}">` : `<i class="fas fa-gem"></i>`}
+                        </div>
+                        <div class="receipt-item-info">
+                            <div class="receipt-item-name">${item.name}</div>
+                            <div class="receipt-item-qty">Qty: ${item.quantity}</div>
+                        </div>
+                        <div class="receipt-item-price">$${(item.price * item.quantity).toFixed(2)}</div>
+                    `;
+                    rcptItems.appendChild(row);
+                });
+
+                // Update steps
+                document.getElementById('step2').classList.add('done');
+                document.getElementById('step3').classList.add('active');
+
+                // ── Send confirmation email via EmailJS ──────────────────
+                const pmLabelsEmail = { card: 'Credit Card', paypal: 'PayPal', cash: 'Cash on Delivery' };
+                const itemsSummary = cart.map(i => `${i.name} × ${i.quantity} — $${(i.price * i.quantity).toFixed(2)}`).join('\n');
+
+                emailjs.send('service_d8w9z0v', 'template_usjb78n', {
+                    to_email:       email,
+                    customer_name:  name,
+                    customer_phone: phone,
+                    order_number:   orderNum,
+                    order_date:     orderDate,
+                    payment_method: pmLabelsEmail[selectedPayment] || selectedPayment,
+                    items_summary:  itemsSummary,
+                    total:          '$' + subtotal.toFixed(2),
+                    address:        addr + ', ' + city + (postal ? ' ' + postal : '')
+                })
+                .then(() => console.log('✅ Confirmation email sent to', email))
+                .catch(err => console.warn('⚠️ Email send failed:', err));
+
+                // Show receipt
+                document.getElementById('successOverlay').classList.add('show');
+                btn.classList.remove('loading');
+            }, 2000);
+        }
+
+        function continueShopping() {
+            window.location.href = 'Homepage.html';
+        }
+
+        async function downloadReceiptPDF() {
+            const btn = document.getElementById('downloadPdfBtn');
+            const originalHTML = btn.innerHTML;
+
+            // Show loading state on button
+            btn.innerHTML = '<div class="spinner"></div><span style="margin-left:0.4rem;">Generating...</span>';
+            btn.disabled = true;
+
+            try {
+                const { jsPDF } = window.jspdf;
+                const receiptEl = document.getElementById('receiptBody');
+
+                // Capture the receipt element as canvas
+                const canvas = await html2canvas(receiptEl, {
+                    scale: 2,          // high DPI for crisp PDF
+                    useCORS: true,     // allow cross-origin images
+                    backgroundColor: '#ffffff',
+                    logging: false
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+
+                // A4 dimensions in mm
+                const pageW = 210;
+                const pageH = 297;
+                const margin = 15;
+                const usableW = pageW - margin * 2;
+
+                // Scale image to fit width
+                const imgW = usableW;
+                const imgH = (canvas.height * imgW) / canvas.width;
+
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                // ── Header bar ──────────────────────────────────────────
+                pdf.setFillColor(26, 26, 26);           // dark background
+                pdf.rect(0, 0, pageW, 22, 'F');
+
+                pdf.setFont('helvetica', 'bold');
+                pdf.setFontSize(14);
+                pdf.setTextColor(212, 175, 55);         // gold
+                pdf.text('LUXE JEWELRY', margin, 14);
+
+                pdf.setFont('helvetica', 'normal');
+                pdf.setFontSize(8);
+                pdf.setTextColor(180, 180, 180);
+                pdf.text('OFFICIAL E-RECEIPT', pageW - margin, 14, { align: 'right' });
+
+                // ── Receipt image ────────────────────────────────────────
+                const topOffset = 28;
+                pdf.addImage(imgData, 'PNG', margin, topOffset, imgW, imgH);
+
+                // ── Footer ───────────────────────────────────────────────
+                const footerY = pageH - 10;
+                pdf.setDrawColor(200, 200, 200);
+                pdf.setLineWidth(0.3);
+                pdf.line(margin, footerY - 4, pageW - margin, footerY - 4);
+
+                pdf.setFont('helvetica', 'normal');
+                pdf.setFontSize(7);
+                pdf.setTextColor(150, 150, 150);
+                pdf.text('Luxe Jewelry · No. 12, Flower Road, Colombo 07, Sri Lanka', pageW / 2, footerY, { align: 'center' });
+
+                // ── Get order number for filename ────────────────────────
+                const orderNo = document.getElementById('rcptOrderNo').textContent.replace('#', '').trim() || 'receipt';
+                pdf.save(`LuxeJewelry_Receipt_${orderNo}.pdf`);
+
+            } catch (e) {
+                console.error('PDF generation failed:', e);
+                alert('Could not generate PDF. Please try again.');
+            } finally {
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+            }
+        }
+    </script>
+
+</body>
+</html>
