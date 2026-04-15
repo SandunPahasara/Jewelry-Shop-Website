@@ -97,16 +97,19 @@ class CartManager {
             this.cart.forEach(item => {
                 const cartItem = document.createElement('div');
                 cartItem.className = 'cart-item';
+                const imgHtml = item.image
+                    ? `<img src="${item.image}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">`
+                    : `<i class="fas fa-gem" style="font-size:1.5rem;color:#d4af37;"></i>`;
                 cartItem.innerHTML = `
-                    <div class="cart-item-image">${item.icon || '💎'}</div>
+                    <div class="cart-item-image" style="display:flex;align-items:center;justify-content:center;overflow:hidden;">${imgHtml}</div>
                     <div class="cart-item-info">
                         <div class="cart-item-name">${item.name}</div>
                         <div class="cart-item-price">$${(item.price * item.quantity).toFixed(2)}</div>
                     </div>
                     <div class="quantity-controls">
-                        <button class="quantity-btn" onclick="app.cart.updateQuantity(${item.id}, -1)">-</button>
+                        <button class="quantity-btn" onclick="app.cart.updateQuantity('${item.id}', -1)">-</button>
                         <span>${item.quantity}</span>
-                        <button class="quantity-btn" onclick="app.cart.updateQuantity(${item.id}, 1)">+</button>
+                        <button class="quantity-btn" onclick="app.cart.updateQuantity('${item.id}', 1)">+</button>
                     </div>
                 `;
                 this.cartItemsElement.appendChild(cartItem);
