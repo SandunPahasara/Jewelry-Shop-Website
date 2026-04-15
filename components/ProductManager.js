@@ -20,12 +20,14 @@ window.ProductManager = class ProductManager {
                     imgSrc = 'images/' + imgSrc;
                 }
 
+                const normalizedPrice = Number(data.price);
+
                 this.products.push({
                     id: doc.id,
-                    name: data.name,
-                    price: data.price,
-                    category: data.category,
-                    description: data.description,
+                    name: data.name || 'Untitled Product',
+                    price: Number.isFinite(normalizedPrice) ? normalizedPrice : 0,
+                    category: data.category || 'Uncategorized',
+                    description: data.description || 'No description available.',
                     image: imgSrc,
                     icon: "💎", // Default icon
                     createdAt: data.createdAt ? (data.createdAt.toDate ? data.createdAt.toDate().toISOString() : new Date(data.createdAt).toISOString()) : null
@@ -33,8 +35,11 @@ window.ProductManager = class ProductManager {
             });
 
             console.log("Loaded products from Firebase:", this.products);
+            return { success: true, count: this.products.length };
         } catch (error) {
             console.error("Error loading products:", error);
+            this.products = [];
+            return { success: false, error };
         }
     }
 
