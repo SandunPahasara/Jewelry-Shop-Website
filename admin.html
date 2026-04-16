@@ -82,8 +82,8 @@
 
         <main class="dashboard-main">
             <!-- Add Product Section -->
-            <section class="admin-section">
-                <h2>Add New Product</h2>
+            <section id="addProductSection" class="admin-section">
+                <h2 id="productFormTitle">Add New Product</h2>
                 <form id="addProductForm" class="product-form">
                     <div class="form-grid">
                         <div class="form-group image-upload-group">
@@ -165,6 +165,7 @@
                 <div id="migrateStatus" style="margin-top: 1rem; font-size: 0.9rem;"></div>
             </section>
         </main>
+        <div id="editOverlay" class="edit-overlay" aria-hidden="true"></div>
     </div>
 
     <!-- Firebase SDK (Modular) -->
