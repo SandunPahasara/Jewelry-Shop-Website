@@ -129,12 +129,16 @@ class UIManager {
 
     filterProducts(category) {
         const products = this.productManager.filterByCategory(category);
+        const normalizedCategory = String(category).trim().toLowerCase();
 
         // Update active category
         document.querySelectorAll('.category-card').forEach(card => {
             card.classList.remove('active');
         });
-        const activeCard = document.querySelector(`[data-category="${category}"]`);
+        const activeCard = Array.from(document.querySelectorAll('.category-card')).find(card => {
+            const cardCategory = String(card.getAttribute('data-category') || '').trim().toLowerCase();
+            return cardCategory === normalizedCategory;
+        });
         if (activeCard) {
             activeCard.classList.add('active');
         }
