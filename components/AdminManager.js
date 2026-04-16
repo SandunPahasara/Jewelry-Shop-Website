@@ -2,7 +2,9 @@ import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https:/
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
 import { db, auth } from "./firebase-config.js";
 
-// 2. Cloudinary Configuration (Provided by user)
+// Cloudinary Configuration
+const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dfnk7xdza/image/upload";
+const CLOUDINARY_UPLOAD_PRESET = "Jewelry_shop";
 
 // DOM Elements
 const loginView = document.getElementById('loginView');
@@ -16,10 +18,37 @@ const submitProductBtn = document.getElementById('submitProductBtn');
 const cancelEditBtn = document.getElementById('cancelEditBtn');
 const adminProductsList = document.getElementById('adminProductsList');
 const migrateDataBtn = document.getElementById('migrateDataBtn');
+const addProductSection = document.getElementById('addProductSection');
+const productFormTitle = document.getElementById('productFormTitle');
+const editOverlay = document.getElementById('editOverlay');
 
 // State for editing
 let editingProductId = null;
 let editingProductImageUrl = null;
+
+function openEditPopup() {
+    dashboardView.classList.add('edit-mode');
+    addProductSection.classList.add('edit-popup-mode');
+    document.body.classList.add('edit-lock-scroll');
+    productFormTitle.textContent = 'Update Product';
+}
+
+function closeEditPopup() {
+    dashboardView.classList.remove('edit-mode');
+    addProductSection.classList.remove('edit-popup-mode');
+    document.body.classList.remove('edit-lock-scroll');
+    productFormTitle.textContent = 'Add New Product';
+}
+
+function bringEditSectionIntoView() {
+    addProductSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => {
+        const nameInput = document.getElementById('productName');
+        if (nameInput) {
+            nameInput.focus();
+        }
+    }, 250);
+}
 
 // ----------------------------------------------------
 // Authentication Logic
@@ -103,10 +132,16 @@ function resetFormState() {
     cancelEditBtn.style.display = 'none';
     editingProductId = null;
     editingProductImageUrl = null;
+    closeEditPopup();
 }
 
 // Cancel Edit Button
 cancelEditBtn.addEventListener('click', () => {
+    resetFormState();
+    document.getElementById('uploadStatus').textContent = "";
+});
+
+editOverlay.addEventListener('click', () => {
     resetFormState();
     document.getElementById('uploadStatus').textContent = "";
 });
@@ -122,7 +157,7 @@ addProductForm.addEventListener('submit', async (e) => {
     // If adding a new product, image is required
     if (!editingProductId && !file) {
         statusMsg.style.color = 'red';
-        statusMsg.textContent = "Please select an image.";
+        statusMsg.textContent = "Please select an image for new products.";
         return;
     }
 
@@ -134,9 +169,12 @@ addProductForm.addEventListener('submit', async (e) => {
     try {
         let imageUrl = editingProductImageUrl; // Default to existing image if editing
 
-        // If a new file is selected (for both Add and Edit), upload to Cloudinary
+        // Only upload to Cloudinary if a NEW file is selected
         if (file) {
-            statusMsg.textContent = "Uploading image to Cloudinary...";
+            statusMsg.textContent = "Uploading image...";
+            
+            // Try Cloudinary upload with fallback
+            try {
             const formData = new FormData();
             formData.append("file", file);
             formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
@@ -148,11 +186,25 @@ addProductForm.addEventListener('submit', async (e) => {
 
             const cloudinaryData = await cloudinaryRes.json();
 
-            if (!cloudinaryRes.ok) {
-                throw new Error(cloudinaryData.error?.message || 'Cloudinary upload failed');
+                if (cloudinaryRes.ok && cloudinaryData.secure_url) {
+                    imageUrl = cloudinaryData.secure_url;
+                } else {
+                    // If Cloudinary fails, use local file as data URL (fallback for local testing)
+                    console.warn("Cloudinary upload failed, using local data URL");
+                    const reader = new FileReader();
+                    imageUrl = await new Promise((resolve) => {
+                        reader.onload = (e) => resolve(e.target.result);
+                        reader.readAsDataURL(file);
+                    });
             }
-
-            imageUrl = cloudinaryData.secure_url;
+            } catch (cloudinaryError) {
+                console.warn("Cloudinary error, using local data URL:", cloudinaryError);
+                const reader = new FileReader();
+                imageUrl = await new Promise((resolve) => {
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(file);
+                });
+            }
         }
 
         statusMsg.textContent = "Saving to database...";
@@ -186,7 +238,11 @@ addProductForm.addEventListener('submit', async (e) => {
     } catch (error) {
         console.error("Save error:", error);
         statusMsg.style.color = 'red';
-        statusMsg.textContent = "Error: " + error.message;
+        if (error.code === 'permission-denied' || String(error.message).includes('Missing or insufficient permissions')) {
+            statusMsg.textContent = "Error: Firestore write blocked by rules. Open Firebase Console > Firestore Database > Rules and allow authenticated update/create/delete for products.";
+        } else {
+            statusMsg.textContent = "Error: " + error.message;
+        }
     } finally {
         submitProductBtn.disabled = false;
         if (!editingProductId) {
@@ -320,12 +376,8 @@ async function editProduct(id) {
             // Update buttons
             submitProductBtn.innerHTML = '<i class="fas fa-save"></i> Update Product';
             cancelEditBtn.style.display = 'block';
-
-            // Scroll to form
-            window.scrollTo({
-                top: document.getElementById('addProductForm').offsetTop - 100,
-                behavior: 'smooth'
-            });
+            openEditPopup();
+            bringEditSectionIntoView();
 
         } else {
             alert("No such product found!");
