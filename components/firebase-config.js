@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
 
@@ -14,8 +14,15 @@ const firebaseConfig = {
     measurementId: "G-6X57JTRDSV"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase - check if already initialized
+let app;
+const existingApps = getApps();
+if (existingApps.length === 0) {
+    app = initializeApp(firebaseConfig);
+} else {
+    app = existingApps[0];
+}
+
 const db = getFirestore(app);
 const auth = getAuth(app);
 
