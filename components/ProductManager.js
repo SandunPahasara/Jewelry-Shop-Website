@@ -56,7 +56,11 @@ window.ProductManager = class ProductManager {
         if (category === 'all') {
             return this.products;
         }
-        return this.products.filter(product => product.category === category);
+
+        const normalizedCategory = String(category).trim().toLowerCase();
+        return this.products.filter(product =>
+            String(product.category || '').trim().toLowerCase() === normalizedCategory
+        );
     }
 
     searchProducts(searchTerm) {
