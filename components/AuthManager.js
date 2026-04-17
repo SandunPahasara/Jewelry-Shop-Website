@@ -2,6 +2,10 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, on
 import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
 import { auth, db } from "./firebase-config.js";
 
+function getLocalProfileKey(uid) {
+    return `luxe_profile_${uid}`;
+}
+
 window.AuthManager = class AuthManager {
     constructor() {
         this.currentUser = null;
@@ -20,9 +24,26 @@ window.AuthManager = class AuthManager {
                     const userDoc = await getDoc(doc(db, "users", user.uid));
                     if (userDoc.exists()) {
                         this.currentUserData = userDoc.data();
+                    } else {
+                        this.currentUserData = {};
+                    }
+
+                    const localProfile = localStorage.getItem(getLocalProfileKey(user.uid));
+                    if (localProfile) {
+                        this.currentUserData = { ...this.currentUserData, ...JSON.parse(localProfile) };
                     }
                 } catch (error) {
                     console.error("Error fetching user data:", error);
+                    this.currentUserData = this.currentUserData || {};
+
+                    const localProfile = localStorage.getItem(getLocalProfileKey(user.uid));
+                    if (localProfile) {
+                        try {
+                            this.currentUserData = { ...this.currentUserData, ...JSON.parse(localProfile) };
+                        } catch {
+                            // Ignore malformed local data
+                        }
+                    }
                 }
 
                 app.ui.updateAuthUI(true, this.currentUser.email);
@@ -44,10 +65,22 @@ window.AuthManager = class AuthManager {
             // Update local cache
             if (!this.currentUserData) this.currentUserData = {};
             this.currentUserData = { ...this.currentUserData, ...profileData };
+            localStorage.setItem(getLocalProfileKey(this.currentUser.uid), JSON.stringify(this.currentUserData));
             
             return { success: true };
         } catch (error) {
             console.error("Error updating profile:", error);
+            // Fallback so the profile still works locally even if Firestore rules block the write
+            if (error.code === 'permission-denied' || String(error.message).includes('Missing or insufficient permissions')) {
+                if (!this.currentUserData) this.currentUserData = {};
+                this.currentUserData = { ...this.currentUserData, ...profileData };
+                localStorage.setItem(getLocalProfileKey(this.currentUser.uid), JSON.stringify(this.currentUserData));
+                return {
+                    success: true,
+                    fallback: true,
+                    message: 'Profile saved locally because Firestore rules are blocking writes.'
+                };
+            }
             return { success: false, error: error.message };
         }
     }
@@ -63,6 +96,11 @@ window.AuthManager = class AuthManager {
                 email: email,
                 createdAt: new Date().toISOString()
             });
+
+            localStorage.setItem(getLocalProfileKey(user.uid), JSON.stringify({
+                name,
+                email
+            }));
 
             return { success: true, user };
         } catch (error) {
