@@ -97,6 +97,7 @@ class UIManager {
         const card = document.createElement('div');
         card.className = 'product-card';
         card.setAttribute('data-category', product.category);
+        const productHref = `?product=${product.id}`;
 
         const priceValue = Number(product.price);
         const displayPrice = Number.isFinite(priceValue) ? priceValue : 0;
@@ -106,14 +107,16 @@ class UIManager {
             : `<span style="font-size: 5rem; opacity: 0.1;">${product.icon}</span>`;
 
         card.innerHTML = `
-            <div class="product-image">
-                ${imageHtml}
-            </div>
+            <a href="${productHref}" class="product-image-link" aria-label="Open ${product.name} details" style="display:block; text-decoration:none; color:inherit;">
+                <div class="product-image">
+                    ${imageHtml}
+                </div>
+            </a>
             <div class="product-info">
                 <h3 class="product-name">${product.name}</h3>
                 <p class="product-description">${product.description}</p>
                 <p class="product-price">$${displayPrice.toLocaleString()}</p>
-                <a href="?product=${product.id}" class="add-to-cart" style="text-decoration: none; display: flex; justify-content: center; align-items: center; box-sizing: border-box;">
+                <a href="${productHref}" class="add-to-cart" style="text-decoration: none; display: flex; justify-content: center; align-items: center; box-sizing: border-box;">
                     Explore & Purchase
                 </a>
             </div>
