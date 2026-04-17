@@ -101,6 +101,9 @@ class ProductPage {
                     <button class="submit-btn" id="addToCartBtn" style="width: 100%; display: flex; justify-content: center; align-items: center; gap: 0.5rem; padding: 1rem; font-size: 1.1rem; margin-top: 1rem;">
                         <i class="fas fa-shopping-cart"></i> Add to Cart
                     </button>
+                    <button class="submit-btn" id="buyNowBtn" style="width: 100%; display: flex; justify-content: center; align-items: center; gap: 0.5rem; padding: 1rem; font-size: 1.1rem; margin-top: 0.8rem; background: var(--accent-color); color: var(--primary-color);">
+                        <i class="fas fa-bolt"></i> Buy Now
+                    </button>
                     
                     <div style="margin-top: 3rem; font-size: 0.9rem; color: var(--text-muted); display: grid; gap: 1rem;">
                         <div style="display: flex; gap: 1rem; align-items: center;"><i class="fas fa-shield-alt"></i> Lifetime Authenticity Guarantee</div>
@@ -118,6 +121,25 @@ class ProductPage {
         document.getElementById('addToCartBtn').addEventListener('click', (e) => {
             window.app.addToCart(this.product.id, e);
         });
+
+        document.getElementById('buyNowBtn').addEventListener('click', () => {
+            this.handleDirectPurchase();
+        });
+    }
+
+    handleDirectPurchase() {
+        const orderItem = {
+            id: this.product.id,
+            name: this.product.name,
+            price: Number(this.product.price) || 0,
+            category: this.product.category || 'Jewelry',
+            description: this.product.description || '',
+            image: this.product.image || '',
+            quantity: 1
+        };
+
+        localStorage.setItem('jewelry_cart', JSON.stringify([orderItem]));
+        window.location.href = 'checkout.html';
     }
 
     generateStarsHtml(rating) {
