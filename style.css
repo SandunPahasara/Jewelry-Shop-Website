@@ -57,6 +57,20 @@ nav {
     position: relative;
 }
 
+.mobile-menu-toggle {
+    display: none;
+    border: 1px solid #ddd;
+    background: white;
+    color: var(--primary-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.05rem;
+}
+
 .logo {
     font-size: 1.6rem;
     font-weight: 700;
@@ -1059,7 +1073,7 @@ footer .logo {
 
 @media (max-width: 768px) {
     .nav-links {
-        display: none;
+        display: flex;
     }
 
     .hero h1 {
@@ -1087,6 +1101,288 @@ footer .logo {
 
     nav {
         padding: 1rem 3%;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        position: sticky;
+    }
+
+    nav {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.85rem 1rem;
+    }
+
+    .mobile-menu-toggle {
+        display: inline-flex;
+        order: 0;
+    }
+
+    .logo {
+        position: static;
+        transform: none;
+        order: 1;
+        font-size: 1.25rem;
+        white-space: normal;
+        text-align: left;
+    }
+
+    .nav-actions {
+        order: 2;
+        margin-left: auto;
+        gap: 0.8rem;
+    }
+
+    .nav-links {
+        order: 3;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+        padding: 0.75rem 0.1rem 0.1rem;
+        margin-top: 0.35rem;
+        border-top: 1px solid #ececec;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+        transition: max-height 0.25s ease, opacity 0.2s ease;
+    }
+
+    .nav-links.open {
+        max-height: 240px;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .nav-links a {
+        font-size: 0.78rem;
+        letter-spacing: 1.5px;
+        padding: 0.55rem 0;
+    }
+
+    .cart-icon,
+    .auth-icon {
+        font-size: 1.1rem;
+    }
+
+    #loggedInView .auth-icon span,
+    #loggedOutView .auth-icon span,
+    #authStatusText {
+        display: none !important;
+    }
+
+    .hero {
+        min-height: 82vh;
+        height: auto;
+        padding: 8rem 1rem 5rem;
+    }
+
+    .hero h1 {
+        font-size: 2.2rem;
+        line-height: 1.15;
+        max-width: 100%;
+    }
+
+    .hero p {
+        font-size: 0.8rem;
+        letter-spacing: 3px;
+        margin-bottom: 1.25rem;
+    }
+
+    .hero-content {
+        padding: 0 1rem;
+    }
+
+    .heritage-section,
+    .discovery-row,
+    .contact-container,
+    .product-main {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .heritage-section,
+    .contact-section,
+    .products-container,
+    .discovery-text,
+    .search-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .heritage-section,
+    .contact-section,
+    .products-container {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+    }
+
+    .heritage-content h2,
+    .discovery-text h2,
+    .contact-info h2,
+    .section-title,
+    .product-title {
+        font-size: 1.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .heritage-content p,
+    .discovery-text p,
+    .contact-info p,
+    .product-description {
+        font-size: 0.95rem;
+    }
+
+    .heritage-image .section-video,
+    .discovery-image .section-video {
+        height: 320px;
+    }
+
+    .categories {
+        grid-template-columns: 1fr;
+    }
+
+    .category-card {
+        height: 260px;
+    }
+
+    .category-card h3 {
+        font-size: 1.4rem;
+        letter-spacing: 3px;
+    }
+
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .product-image {
+        height: 320px;
+    }
+
+    .product-info {
+        padding: 1.5rem 0 0;
+    }
+
+    .search-bar {
+        max-width: none;
+    }
+
+    .search-bar input {
+        padding: 0.9rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    .contact-form-wrapper {
+        padding: 1.5rem;
+    }
+
+    .footer-content {
+        gap: 1.5rem;
+    }
+
+    .footer-links {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .cart-sidebar {
+        width: 100vw;
+        right: -100vw;
+        padding: 1.5rem;
+    }
+
+    .auth-modal-content {
+        width: calc(100vw - 1rem);
+        max-width: none;
+        padding: 1.5rem;
+        margin: 0.5rem;
+    }
+
+    .product-page-container {
+        margin: 92px auto 3rem;
+        padding: 0 1rem;
+    }
+
+    .product-image-container {
+        min-height: 320px;
+    }
+
+    .review-form {
+        padding: 1.25rem;
+    }
+
+    .reviews-header {
+        align-items: flex-start;
+    }
+
+    .average-rating h3 {
+        font-size: 2rem;
+    }
+
+    .whatsapp-float {
+        width: 52px;
+        height: 52px;
+        bottom: 18px;
+        right: 18px;
+        font-size: 1.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        min-height: 78vh;
+        padding-top: 7rem;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .section-title,
+    .contact-info h2,
+    .heritage-content h2,
+    .discovery-text h2,
+    .product-title {
+        font-size: 1.6rem;
+    }
+
+    .category-card {
+        height: 220px;
+    }
+
+    .product-image {
+        height: 260px;
+    }
+
+    .submit-btn,
+    .add-to-cart,
+    .checkout-btn {
+        width: 100%;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        letter-spacing: 1.25px;
+    }
+
+    .footer-links a {
+        letter-spacing: 1px;
+    }
+
+    .social-icons {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .product-price {
+        font-size: 1.3rem;
+    }
+
+    .product-page-container {
+        margin-top: 84px;
     }
 }
 
@@ -1348,5 +1644,10 @@ footer .logo {
     .product-main {
         grid-template-columns: 1fr;
         gap: 2rem;
+    }
+
+    .reviews-section {
+        padding-top: 2.5rem;
+        margin-top: 2.5rem;
     }
 }
