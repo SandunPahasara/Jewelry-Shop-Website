@@ -181,6 +181,9 @@
 <body>
     <header>
         <nav>
+            <button id="mobileMenuToggle" class="mobile-menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
             <div class="logo"> Luxe Jewelry</div>
             <ul class="nav-links">
                 <li><a href="Homepage.html#home">Home</a></li>
@@ -188,7 +191,7 @@
                 <li><a href="Homepage.html#aboutus">About us</a></li>
                 <li><a href="Homepage.html#contact">Contact</a></li>
             </ul>
-            <div style="display: flex; align-items: center; gap: 2rem;">
+            <div class="nav-actions" style="display: flex; align-items: center; gap: 2rem;">
                 <div class="auth-icon" id="authBtn" onclick="app.ui.toggleAuthModal()"
                     style="cursor: pointer; font-size: 1.2rem; color: var(--primary-color);">
                     <i class="fas fa-user"></i> <span id="authStatusText"
