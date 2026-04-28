@@ -4,8 +4,39 @@ class FormManager {
         this.contactFormElement = null;
         this.emailjsInitialized = false;
         this.emailjsPublicKey = 'TrtI9U_9dFF7-Npax';
-        this.emailjsServiceId = 'service_d8w9z0v';
+        this.emailjsServiceId = 'service_04krrk4';
         this.emailjsTemplateId = 'template_contact_form';
+    }
+
+    sanitizeEmail(value) {
+        return String(value || '')
+            .trim()
+            .toLowerCase()
+            .replace(/[<>"'\s]/g, '')
+            .replace(/[;,].*$/, '');
+    }
+
+    isValidEmail(value) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || '').trim());
+    }
+
+    stringifyEmailJsError(err) {
+        if (!err) return 'Unknown EmailJS error';
+        if (typeof err === 'string') return err;
+
+        const parts = [];
+        if (err.status) parts.push(`status=${err.status}`);
+        if (err.text) parts.push(`text=${err.text}`);
+        if (err.message) parts.push(`message=${err.message}`);
+
+        try {
+            const raw = JSON.stringify(err);
+            if (raw && raw !== '{}' && raw !== '[]') parts.push(`raw=${raw}`);
+        } catch {
+            // Ignore stringify failures.
+        }
+
+        return parts.length ? parts.join(' | ') : String(err);
     }
 
     init(contactFormEl) {
@@ -37,19 +68,42 @@ class FormManager {
         const data = Object.fromEntries(formData);
         const submitBtn = e.target.querySelector('button[type="submit"]');
         const originalBtnText = submitBtn.textContent;
+        const cleanEmail = this.sanitizeEmail(data.email);
+
+        if (!this.isValidEmail(cleanEmail)) {
+            alert('Please enter a valid email address.');
+            return;
+        }
 
         submitBtn.disabled = true;
         submitBtn.textContent = 'Sending...';
 
         try {
             if (this.emailjsInitialized) {
-                await emailjs.send(this.emailjsServiceId, this.emailjsTemplateId, {
+                const templateParams = {
+                    // Sender details from contact form
                     from_name: data.name,
-                    from_email: data.email,
+                    from_email: cleanEmail,
                     phone: data.phone || 'Not provided',
                     message: data.message,
-                    submitted_at: new Date().toLocaleString()
+                    submitted_at: new Date().toLocaleString(),
+
+                    // Extra aliases for flexible EmailJS template mapping
+                    customer_name: data.name,
+                    customer_email: cleanEmail,
+                    customer_phone: data.phone || 'Not provided',
+                    inquiry_message: data.message,
+                    reply_to: cleanEmail,
+                    to_email: 'concierge@luxe-jewelry.com'
+                };
+
+                console.log('📧 Contact EmailJS payload:', {
+                    serviceId: this.emailjsServiceId,
+                    templateId: this.emailjsTemplateId,
+                    params: templateParams
                 });
+
+                await emailjs.send(this.emailjsServiceId, this.emailjsTemplateId, templateParams);
 
                 alert(`Thank you for your inquiry, ${data.name}!\n\nYour message has been sent successfully via EmailJS. We'll get back to you within 24 hours at ${data.email}.`);
             } else {
@@ -59,8 +113,9 @@ class FormManager {
             // Reset form
             this.contactFormElement.reset();
         } catch (error) {
-            console.error("Form submission error:", error);
-            alert("Sorry, there was an error sending your message. Please try again later.");
+            const reason = this.stringifyEmailJsError(error);
+            console.error('Form submission error:', { reason, error });
+            alert(`Sorry, there was an error sending your message. Reason: ${reason}`);
         } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = originalBtnText;
