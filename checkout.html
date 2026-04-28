@@ -11,10 +11,18 @@
     <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
-        const EMAILJS_PUBLIC_KEY = 'TrtI9U_9dFF7-Npax';
-        const EMAILJS_SERVICE_ID = 'service_d8w9z0v';
-        const EMAILJS_ORDER_TEMPLATE_ID = 'template_usjb78n';
-        emailjs.init(EMAILJS_PUBLIC_KEY);
+        // ⚠️ GET THESE FROM YOUR EMAILJS ACCOUNT: https://dashboard.emailjs.com
+        const EMAILJS_PUBLIC_KEY = 'TrtI9U_9dFF7-Npax';  // From EmailJS Dashboard
+        const EMAILJS_SERVICE_ID = 'service_04krrk4';  // From Email Services
+        const EMAILJS_ORDER_TEMPLATE_ID = 'template_usjb78n';  // From Email Templates
+        
+        // Initialize only if credentials are set
+        if (EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY_HERE') {
+            emailjs.init(EMAILJS_PUBLIC_KEY);
+            console.log('✅ EmailJS initialized');
+        } else {
+            console.warn('⚠️ EmailJS credentials not configured. Emails will not be sent.');
+        }
     </script>
 </head>
 <body>
@@ -296,6 +304,102 @@
     <script>
         let selectedPayment = null;
 
+        function isValidEmail(value) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || '').trim());
+        }
+
+        function sanitizeEmail(value) {
+            return String(value || '')
+                .trim()
+                .toLowerCase()
+                .replace(/[<>"'\s]/g, '')
+                .replace(/[;,].*$/, '');
+        }
+
+        function stringifyEmailJsError(err) {
+            if (!err) return 'Unknown EmailJS error';
+            if (typeof err === 'string') return err;
+
+            const parts = [];
+            if (err.status) parts.push(`status=${err.status}`);
+            if (err.text) parts.push(`text=${err.text}`);
+            if (err.message) parts.push(`message=${err.message}`);
+
+            try {
+                const raw = JSON.stringify(err);
+                if (raw && raw !== '{}' && raw !== '[]') parts.push(`raw=${raw}`);
+            } catch {
+                // Ignore JSON stringify failures.
+            }
+
+            return parts.length ? parts.join(' | ') : String(err);
+        }
+
+        async function sendOrderConfirmationEmail(orderDetails) {
+            const recipientEmail = sanitizeEmail(orderDetails.email);
+            if (!isValidEmail(recipientEmail)) {
+                throw new Error('Recipient email became invalid after sanitization');
+            }
+
+            const params = {
+                // Most common EmailJS template variable names (kept intentionally broad)
+                to_email: recipientEmail,
+                email: recipientEmail,
+                customer_email: recipientEmail,
+                reply_to: recipientEmail,
+                to_name: orderDetails.name,
+                name: orderDetails.name,
+                customer_name: orderDetails.name,
+                customer_phone: orderDetails.phone,
+                order_number: orderDetails.orderNum,
+                order_date: orderDetails.orderDate,
+                payment_method: orderDetails.paymentMethod,
+                items_summary: orderDetails.itemsSummary,
+                total_amount: orderDetails.total,
+                total: orderDetails.total,
+                shipping_address: orderDetails.address,
+                address: orderDetails.address,
+                subject: `Order Confirmation #${orderDetails.orderNum}`,
+                message: `Thank you ${orderDetails.name}, your order ${orderDetails.orderNum} has been confirmed.`
+            };
+
+            console.log('📧 EmailJS payload:', {
+                service_id: EMAILJS_SERVICE_ID,
+                template_id: EMAILJS_ORDER_TEMPLATE_ID,
+                user_id: EMAILJS_PUBLIC_KEY,
+                template_params: params
+            });
+
+            // First try SDK send because it often provides clearer `status` + `text` details.
+            try {
+                const sdkResult = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ORDER_TEMPLATE_ID, params);
+                return sdkResult?.text || 'OK';
+            } catch (sdkErr) {
+                const sdkMsg = stringifyEmailJsError(sdkErr);
+                console.warn('⚠️ EmailJS SDK send failed, trying REST fallback:', sdkMsg);
+            }
+
+            const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    service_id: EMAILJS_SERVICE_ID,
+                    template_id: EMAILJS_ORDER_TEMPLATE_ID,
+                    user_id: EMAILJS_PUBLIC_KEY,
+                    template_params: params
+                })
+            });
+
+            const responseText = await response.text();
+            if (!response.ok) {
+                throw new Error(`EmailJS HTTP ${response.status}: ${responseText || 'Empty response body (likely template/service config issue)'}`);
+            }
+
+            return responseText || 'OK';
+        }
+
         function selectPayment(method) {
             selectedPayment = method;
             ['card','paypal','cash'].forEach(m => {
@@ -324,13 +428,18 @@
         function placeOrder() {
             const name  = document.getElementById('shipName').value.trim();
             const phone = document.getElementById('shipPhone').value.trim();
-            const email = document.getElementById('shipEmail').value.trim();
+            const email = sanitizeEmail(document.getElementById('shipEmail').value);
             const addr  = document.getElementById('shipAddress').value.trim();
             const city  = document.getElementById('shipCity').value.trim();
             const postal = document.getElementById('shipPostal').value.trim();
 
             if (!name || !phone || !email || !addr || !city) {
                 alert('Please fill in all required shipping fields.');
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                alert('Please enter a valid email address.');
                 return;
             }
 
@@ -421,25 +530,32 @@
                 const itemsSummary = cart.map(i => `${i.name} × ${i.quantity} — $${(i.price * i.quantity).toFixed(2)}`).join('\n');
 
                 try {
-                    const orderEmailParams = {
-                        to_email: email,
+                    console.log('📧 EmailJS Config:', {
+                        publicKey: EMAILJS_PUBLIC_KEY,
+                        serviceId: EMAILJS_SERVICE_ID,
+                        templateId: EMAILJS_ORDER_TEMPLATE_ID
+                    });
+
+                    const emailResponse = await sendOrderConfirmationEmail({
                         email: email,
-                        customer_name: name,
                         name: name,
-                        customer_phone: phone,
-                        order_number: orderNum,
-                        order_date: orderDate,
-                        payment_method: pmLabelsEmail[selectedPayment] || selectedPayment,
-                        items_summary: itemsSummary,
+                        phone: phone,
+                        orderNum: orderNum,
+                        orderDate: orderDate,
+                        paymentMethod: pmLabelsEmail[selectedPayment] || selectedPayment,
+                        itemsSummary: itemsSummary,
                         total: '$' + subtotal.toFixed(2),
                         address: addr + ', ' + city + (postal ? ' ' + postal : '')
-                    };
+                    });
 
-                    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ORDER_TEMPLATE_ID, orderEmailParams);
-                    console.log('Confirmation email sent to', email);
+                    console.log('✅ Confirmation email sent to', email, emailResponse);
                 } catch (err) {
-                    console.warn('Order confirmation email failed:', err);
-                    alert('Order placed successfully, but confirmation email could not be sent. Please verify your template variables in EmailJS.');
+                    const reason = stringifyEmailJsError(err);
+                    console.error('❌ EmailJS Error Details:', {
+                        reason: reason,
+                        fullError: err
+                    });
+                    alert('Order placed successfully, but confirmation email failed. Reason: ' + reason + '. Most common fix: in EmailJS template set "To Email" to {{to_email}} and save template.');
                 }
 
                 // Show receipt
