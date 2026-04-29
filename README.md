@@ -57,8 +57,69 @@ Open your browser at http://localhost:8000 and click the `Homepage.html` to view
 
 MIT — feel free to adapt for your project.
 
+## Deploy to GitHub Pages (Free + Easy) — Recommended
 
+GitHub Pages is the easiest free hosting for static sites. Your website will be live at:
+`https://YOUR_USERNAME.github.io/YOUR_REPO_NAME/`
 
+### Setup Steps (5 minutes)
 
+**1. Make sure code is on GitHub**
 
+Push your latest changes from your PC:
 
+```powershell
+Set-Location -Path "C:\Users\USER\Desktop\project\Finish project\Jewelary shop\Jewelry-Shop-Website"
+git add .
+git commit -m "add all files"
+git push origin main
+```
+
+**2. Enable Pages in GitHub**
+
+- Go to your GitHub repo in browser
+- Click **Settings** tab (top right)
+- In left sidebar, click **Pages**
+- Under "Build and deployment":
+  - Source: Select `Deploy from a branch`
+  - Branch: Select `main` and `/root` folder
+  - Click **Save**
+
+**3. Wait for deploy**
+
+GitHub will build your site (takes ~30 seconds).
+
+You'll see a green checkmark and a link like:
+```
+Your site is live at: https://YOUR_USERNAME.github.io/YOUR_REPO_NAME/
+```
+
+**4. Open your live site**
+
+Click that link or paste it in your browser. Your jewelry site is now online!
+
+**5. Future updates (auto-deploy)**
+
+Every time you push to `main`, GitHub Pages auto-deploys:
+
+```powershell
+git add .
+git commit -m "update content"
+git push origin main
+```
+
+### Why GitHub Pages?
+
+- Free forever
+- Supports files up to 100 MB (your videos fit easily)
+- Auto-deploy on every push
+- HTTPS included
+- No credit card needed
+- Perfect for static HTML/CSS/JS sites
+
+### Custom domain (optional)
+
+If you have your own domain (e.g., `jewel-shop.com`), you can point it to GitHub Pages:
+
+- In repo Settings → Pages → **Custom domain**
+- Add your domain and follow GitHub's DNS setup guide
