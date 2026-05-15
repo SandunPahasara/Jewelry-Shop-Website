@@ -37,6 +37,23 @@ http-server -p 8000
 
 Open your browser at http://localhost:8000 and click the `Homepage.html` to view the site.
 
+### Run with Docker
+
+Build and run the static site container:
+
+```powershell
+docker build -t jewelry-shop .
+docker run --rm -p 8080:8080 jewelry-shop
+```
+
+Or use Docker Compose:
+
+```powershell
+docker compose up --build
+```
+
+Then open http://localhost:8081 in your browser.
+
 ## Project structure
 
 - `Homepage.html` — main landing page
@@ -90,6 +107,7 @@ git push origin main
 GitHub will build your site (takes ~30 seconds).
 
 You'll see a green checkmark and a link like:
+
 ```
 Your site is live at: https://YOUR_USERNAME.github.io/YOUR_REPO_NAME/
 ```
