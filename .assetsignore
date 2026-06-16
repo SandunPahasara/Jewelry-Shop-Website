@@ -1,0 +1,19 @@
+# Ignore Git files
+.git
+.github
+.gitattributes
+
+# Ignore Docker/Nginx configuration files
+Dockerfile
+docker-compose.yml
+nginx.conf
+.dockerignore
+
+# Ignore Wrangler / Cloudflare configuration files
+wrangler.toml
+.assetsignore
+
+# Ignore Markdown docs and guide files
+README.md
+ARCHITECTURE.md
+EMAILJS_SETUP_GUIDE.md
